@@ -28,13 +28,6 @@ class App {
 
     // Initial load: Beranda with 1 Set Gaming PC Desktop & Monitor
     this.switchTab('beranda');
-
-    // Fade out gesture hint after first interaction or 6 seconds
-    setTimeout(() => {
-      if (this.elements.gestureHint) {
-        this.elements.gestureHint.classList.add('fade-out');
-      }
-    }, 6000);
   }
 
   cacheDomElements() {
@@ -44,7 +37,6 @@ class App {
       loadingTitle: document.getElementById('loading-title'),
       loadingProgressBar: document.getElementById('loading-progress-bar'),
       loadingPercentage: document.getElementById('loading-percentage'),
-      gestureHint: document.getElementById('gesture-hint'),
       canvasContainer: document.getElementById('canvas-container'),
 
       // Tabs & Home Overlay
@@ -354,7 +346,6 @@ class App {
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.add('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.add('hidden');
-      if (this.elements.gestureHint) this.elements.gestureHint.classList.add('hidden');
 
       // Load 1 Set Gaming PC Desktop & Monitor with home offset framing
       if (this.elements.loadingTitle) {
@@ -378,9 +369,8 @@ class App {
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.remove('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.remove('hidden');
-      if (this.elements.gestureHint) this.elements.gestureHint.classList.remove('hidden');
 
-      // Load selected component model
+      // Select first component if none selected
       this.selectComponent(this.selectedComponentIndex);
     } else if (tabName === 'kuis') {
       // Interactive 3D mode enabled for inspection
@@ -395,7 +385,6 @@ class App {
       if (this.elements.panelKuis) this.elements.panelKuis.classList.remove('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.add('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.remove('hidden');
-      if (this.elements.gestureHint) this.elements.gestureHint.classList.add('hidden');
 
       // Start / load current quiz question
       this.loadQuizQuestion(this.currentQuizIndex);
@@ -719,13 +708,6 @@ class App {
         });
       }
     });
-
-    // Dismiss gesture hint on first pointerdown on canvas
-    this.elements.canvasContainer.addEventListener('pointerdown', () => {
-      if (this.elements.gestureHint) {
-        this.elements.gestureHint.classList.add('fade-out');
-      }
-    }, { once: true });
   }
 }
 
