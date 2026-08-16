@@ -418,11 +418,11 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode (Centered 3D Models)
       if (isMobile) {
-        // Mobile Pembahasan: Optical camera offset pushing 3D component high up in the screen
+        // Mobile Pembahasan: Perfectly balanced elevated camera target
         pivotX = 0;
         pivotY = 0;
         targetLookX = 0;
-        targetLookY = -radius * 0.95;
+        targetLookY = -radius * 0.42;
         const camDist = radius * 5.2;
         camX = camDist * 0.38;
         camY = targetLookY + camDist * 0.50;
@@ -506,7 +506,7 @@ export class ThreeViewer {
         pivotX = 0;
         pivotY = 0;
         targetLookX = 0;
-        targetLookY = -radius * 0.95;
+        targetLookY = -radius * 0.42;
         const camDist = radius * 5.2;
         camX = camDist * 0.38;
         camY = targetLookY + camDist * 0.50;
