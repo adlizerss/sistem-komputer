@@ -705,64 +705,72 @@ html, body {
 }
 
 
-/* Component Quick Navigation Bar (Desktop & Mobile) */
-.comp-nav-bar {
+/* =========================================================
+   FLOATING COMPONENT NAVIGATOR (STANDALONE)
+   ========================================================= */
+.floating-comp-nav {
+  position: absolute;
+  top: 80px;
+  left: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-glass-hud);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 6px 10px;
+  border-radius: 16px;
   border: 1px solid var(--border-glass);
-  padding: 5px 8px;
-  border-radius: 14px;
-  margin-bottom: 4px;
+  box-shadow: var(--shadow-lg);
+  z-index: 30;
 }
 
-.comp-nav-btn {
+.floating-nav-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border-glass);
   color: var(--text-main);
   border-radius: 10px;
   font-family: var(--font-heading);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition-bounce);
   user-select: none;
 }
 
-.comp-nav-btn:hover {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(99, 102, 241, 0.25));
+.floating-nav-btn:hover {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(99, 102, 241, 0.3));
   border-color: var(--primary-cyan);
   color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px var(--primary-cyan-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px var(--primary-cyan-glow);
 }
 
-.comp-nav-btn:active {
+.floating-nav-btn:active {
   transform: scale(0.96);
 }
 
-.nav-arrow-icon {
-  width: 15px;
-  height: 15px;
+.nav-arrow-svg {
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
 }
 
-.comp-step-pill {
+.floating-step-badge {
   font-family: var(--font-heading);
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 800;
   color: var(--primary-cyan);
   background: rgba(6, 182, 212, 0.12);
-  border: 1px solid rgba(6, 182, 212, 0.3);
-  padding: 4px 12px;
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  padding: 6px 14px;
   border-radius: 99px;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 /* Card Header */
@@ -1589,8 +1597,8 @@ html, body {
   .home-center-overlay {
     justify-content: center;
     align-items: flex-end;
-    padding: 0 14px 44px;
-    padding-bottom: max(44px, calc(24px + env(safe-area-inset-bottom)));
+    padding: 0 14px 64px;
+    padding-bottom: max(64px, calc(38px + env(safe-area-inset-bottom)));
   }
 
   .home-menu-box {
@@ -1599,7 +1607,7 @@ html, body {
     max-width: 350px;
     width: 100%;
     gap: 0;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(6, 182, 212, 0.15);
   }
 
@@ -1664,24 +1672,38 @@ html, body {
     height: 13px;
   }
 
-  /* Comp Nav Bar in Mobile Sheet */
-  .comp-nav-bar {
-    padding: 3px 6px;
-    margin-bottom: 2px;
-    gap: 6px;
-    border-radius: 10px;
+  /* Floating Standalone Component Navigator (Mobile) */
+  .floating-comp-nav {
+    top: 64px;
+    right: 12px;
+    left: auto;
+    padding: 3px 5px;
+    gap: 4px;
+    border-radius: 12px;
+    background: rgba(13, 18, 29, 0.88);
+    z-index: 35;
   }
 
-  .comp-nav-btn {
-    padding: 5px 9px;
+  .floating-nav-btn {
+    padding: 5px 8px;
     font-size: 0.72rem;
-    gap: 4px;
+    gap: 3px;
     border-radius: 8px;
   }
 
-  .comp-step-pill {
-    padding: 3px 10px;
+  .floating-nav-btn .btn-nav-label {
+    display: none; /* Icon-only arrows on mobile for compact fit */
+  }
+
+  .nav-arrow-svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .floating-step-badge {
+    padding: 4px 8px;
     font-size: 0.72rem;
+    border-radius: 8px;
   }
 
   /* Side Floating Cards (Bottom Sheet for Mobile) */
@@ -1704,15 +1726,37 @@ html, body {
     display: flex;
   }
 
-  /* Collapsed state when user wants maximum 3D canvas visibility */
+  /* Collapsed state when user wants maximum 3D canvas visibility: STRICTLY ONLY HANDLE LINE VISIBLE */
   .side-floating-card.sheet-collapsed {
-    max-height: 46px !important;
-    overflow: hidden;
-    padding-bottom: 6px;
+    max-height: 26px !important;
+    min-height: 26px !important;
+    padding: 4px 14px !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    cursor: pointer !important;
+    bottom: 14px !important;
+    background: rgba(13, 18, 29, 0.92) !important;
+    border-color: rgba(6, 182, 212, 0.4) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(6, 182, 212, 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  .side-floating-card.sheet-collapsed > *:not(.sheet-handle-bar):not(.card-header) {
+  .side-floating-card.sheet-collapsed > *:not(.sheet-handle-bar) {
     display: none !important;
+  }
+
+  .side-floating-card.sheet-collapsed .sheet-handle-bar {
+    display: flex !important;
+    padding: 0 !important;
+  }
+
+  .side-floating-card.sheet-collapsed .sheet-handle-pill {
+    background: var(--primary-cyan) !important;
+    width: 48px !important;
+    height: 5px !important;
+    box-shadow: 0 0 12px var(--primary-cyan-glow) !important;
   }
 
   .card-header {
@@ -2031,15 +2075,15 @@ html, body {
   }
 
   .home-center-overlay {
-    padding: 0 10px 42px;
-    padding-bottom: max(42px, calc(24px + env(safe-area-inset-bottom)));
+    padding: 0 10px 60px;
+    padding-bottom: max(60px, calc(36px + env(safe-area-inset-bottom)));
   }
 
   .home-menu-box {
     padding: 11px 12px 13px;
     border-radius: 20px;
     max-width: 330px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   .home-main-title {

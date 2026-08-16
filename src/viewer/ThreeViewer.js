@@ -359,9 +359,9 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: shift 3D PC model UP so it is centered in top 55%
-        targetY = -radius * 0.48;
-        camDistance = distance * 1.12;
+        // Mobile Home: shift 3D PC model UPWARDS into upper viewport area
+        targetY = radius * 0.32;
+        camDistance = distance * 1.25;
       } else {
         // Desktop Home: shift 3D model to LEFT side and enlarge
         targetX = radius * 0.45;
@@ -370,7 +370,7 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile, position 3D model smaller with generous breathing room in upper viewport
+        // On mobile, keep 3D component model in upper half with comfortable scale (as in Gambar 2)
         targetY = -radius * 0.46;
         camDistance = distance * 1.38;
       } else {
@@ -425,8 +425,8 @@ export class ThreeViewer {
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
-        targetY = -radius * 0.48;
-        camDistance = distance * 1.12;
+        targetY = radius * 0.32;
+        camDistance = distance * 1.25;
       } else {
         targetX = radius * 0.45;
         camDistance = distance * 0.68;

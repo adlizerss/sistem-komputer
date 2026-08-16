@@ -58,6 +58,7 @@ class App {
       // Floating Panels & Gallery
       panelPembahasan: document.getElementById('panel-pembahasan'),
       btnToggleSheet: document.getElementById('btn-toggle-sheet'),
+      floatingCompNav: document.getElementById('floating-comp-nav'),
       btnCompPrev: document.getElementById('btn-comp-prev'),
       btnCompNext: document.getElementById('btn-comp-next'),
       compStepIndicator: document.getElementById('comp-step-indicator'),
@@ -249,6 +250,7 @@ class App {
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.remove('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.add('hidden');
+      if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.add('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.add('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.add('hidden');
@@ -264,6 +266,7 @@ class App {
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.add('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.remove('hidden');
+      if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.remove('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.remove('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.remove('hidden');
@@ -277,6 +280,7 @@ class App {
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.add('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.add('hidden');
+      if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.add('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.remove('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.add('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.remove('hidden');
@@ -443,10 +447,18 @@ class App {
     this.elements.tabPembahasan.addEventListener('click', () => this.switchTab('pembahasan'));
     this.elements.tabKuis.addEventListener('click', () => this.switchTab('kuis'));
 
-    // Mobile Sheet Handle Toggle (Collapse/Expand Info Panel on Mobile)
-    if (this.elements.btnToggleSheet && this.elements.panelPembahasan) {
-      this.elements.btnToggleSheet.addEventListener('click', () => {
-        this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
+    // Mobile Sheet Handle & Card Toggle (Collapse/Expand Info Panel on Mobile)
+    if (this.elements.panelPembahasan) {
+      if (this.elements.btnToggleSheet) {
+        this.elements.btnToggleSheet.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
+        });
+      }
+      this.elements.panelPembahasan.addEventListener('click', () => {
+        if (this.elements.panelPembahasan.classList.contains('sheet-collapsed')) {
+          this.elements.panelPembahasan.classList.remove('sheet-collapsed');
+        }
       });
     }
 
