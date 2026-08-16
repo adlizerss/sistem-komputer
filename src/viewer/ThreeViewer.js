@@ -363,35 +363,37 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Set distance * 2.45 so the entire PC desk & monitor fits comfortably in the upper-middle screen
-        targetLookY = -radius * 0.45;
-        camDistance = distance * 2.45;
+        // Mobile Home: Generous framing so the entire PC desk & monitor fits in the upper viewport
+        targetLookY = -radius * 0.50;
+        camDistance = distance * 2.85;
         targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamY = targetLookY + camDistance * 0.45;
         targetCamZ = camDistance * 1.05;
       } else {
-        // Desktop Home: Aim camera rightwards so model appears on the left side
-        targetLookX = radius * 0.45;
-        camDistance = distance * 0.75;
+        // Desktop Home: Generous framing on left side so full desk setup is visible without excessive zoom
+        targetLookX = radius * 0.40;
+        targetLookY = -radius * 0.15;
+        camDistance = distance * 2.1;
         targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamY = targetLookY + camDistance * 0.45;
         targetCamZ = camDistance * 1.05;
       }
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile: Position model in safe center area, compact scale, with elevated 3/4 isometric view
+        // On mobile: Compact component size with plenty of space in all directions
         targetLookY = -radius * 0.25;
-        camDistance = distance * 3.6;
+        camDistance = distance * 4.5;
         targetCamX = targetLookX + camDistance * 0.60;
-        targetCamY = targetLookY + camDistance * 0.80; // Angled from above to clearly show component surface details
+        targetCamY = targetLookY + camDistance * 0.80;
         targetCamZ = camDistance * 1.05;
       } else {
-        // On desktop: Shift component model slightly left with angled view
-        targetLookX = radius * 0.35;
-        camDistance = distance * 1.25;
-        targetCamX = targetLookX + camDistance * 0.70;
-        targetCamY = targetLookY + camDistance * 0.65;
+        // On desktop: Compact component size with angled 3/4 isometric framing
+        targetLookX = radius * 0.30;
+        targetLookY = 0;
+        camDistance = distance * 2.6;
+        targetCamX = targetLookX + camDistance * 0.65;
+        targetCamY = targetLookY + camDistance * 0.70;
         targetCamZ = camDistance * 1.05;
       }
     }
@@ -438,30 +440,32 @@ export class ThreeViewer {
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
-        targetLookY = -radius * 0.45;
-        camDistance = distance * 2.45;
+        targetLookY = -radius * 0.50;
+        camDistance = distance * 2.85;
         targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamY = targetLookY + camDistance * 0.45;
         targetCamZ = camDistance * 1.05;
       } else {
-        targetLookX = radius * 0.45;
-        camDistance = distance * 0.75;
+        targetLookX = radius * 0.40;
+        targetLookY = -radius * 0.15;
+        camDistance = distance * 2.1;
         targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamY = targetLookY + camDistance * 0.45;
         targetCamZ = camDistance * 1.05;
       }
     } else {
       if (isMobile) {
         targetLookY = -radius * 0.25;
-        camDistance = distance * 3.6;
+        camDistance = distance * 4.5;
         targetCamX = targetLookX + camDistance * 0.60;
         targetCamY = targetLookY + camDistance * 0.80;
         targetCamZ = camDistance * 1.05;
       } else {
-        targetLookX = radius * 0.35;
-        camDistance = distance * 1.25;
-        targetCamX = targetLookX + camDistance * 0.70;
-        targetCamY = targetLookY + camDistance * 0.65;
+        targetLookX = radius * 0.30;
+        targetLookY = 0;
+        camDistance = distance * 2.6;
+        targetCamX = targetLookX + camDistance * 0.65;
+        targetCamY = targetLookY + camDistance * 0.70;
         targetCamZ = camDistance * 1.05;
       }
     }
