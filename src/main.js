@@ -215,7 +215,9 @@ class App {
         const isActive = idx === index;
         chip.classList.toggle('active', isActive);
         if (isActive) {
-          chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          setTimeout(() => {
+            chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }, 50);
         }
       });
     }

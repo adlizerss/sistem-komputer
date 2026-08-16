@@ -1919,30 +1919,35 @@ html, body {
     height: 14px;
   }
 
-  /* Top Horizontal Component Chips Bar (Mobile - Centered, Spacious & Clean Text) */
+  /* Top Horizontal Component Chips Bar (Mobile - Non-clipped Centered Scroll) */
   .components-top-bar {
     top: 104px;
     left: 0;
     right: 0;
     width: 100vw;
     max-width: 100vw;
-    padding: 0 8px;
+    padding: 0;
     z-index: 30;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .comp-chips-scroll {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 8px;
-    padding: 3px 12px 6px;
+    padding: 4px 16px 8px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    width: auto;
-    max-width: 100%;
-    margin: 0 auto;
+    width: 100%;
+    scroll-padding: 0 16px;
+  }
+
+  .comp-chips-scroll::before,
+  .comp-chips-scroll::after {
+    content: '';
+    margin: auto;
   }
 
   .comp-chip {
