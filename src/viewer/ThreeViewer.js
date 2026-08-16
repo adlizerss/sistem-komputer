@@ -314,9 +314,10 @@ export class ThreeViewer {
     let box = new THREE.Box3().setFromObject(model);
     let sphere = box.getBoundingSphere(new THREE.Sphere());
 
-    // Auto-normalize scale for tiny objects (like M.2 NVMe SSD) so they appear large & clear
+    // Auto-normalize scale for tiny objects (like CPU & M.2 NVMe SSD) so they appear clean, compact & proportional
     if (sphere.radius < 0.25 && sphere.radius > 0.001) {
-      const scaleFactor = 0.55 / sphere.radius;
+      const targetNormalizedRadius = 0.38;
+      const scaleFactor = targetNormalizedRadius / sphere.radius;
       model.scale.set(scaleFactor, scaleFactor, scaleFactor);
       model.updateMatrixWorld(true);
 
@@ -361,22 +362,22 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Place model in upper half, generous wide portrait framing
+        // Mobile Home: Slightly larger, elevated in upper half
         pivotX = 0;
-        pivotY = radius * 0.40;
+        pivotY = radius * 0.52;
         targetLookX = 0;
         targetLookY = pivotY;
-        const camDist = radius * 5.4;
+        const camDist = radius * 4.6;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.30;
+        camY = targetLookY + camDist * 0.28;
         camZ = camDist * 1.10;
       } else {
-        // Desktop Home: Place model on left side of screen, right side for menu
-        pivotX = -radius * 0.65;
-        pivotY = -radius * 0.08;
+        // Desktop Home: Slightly larger, elevated on left side of screen
+        pivotX = -radius * 0.60;
+        pivotY = radius * 0.05;
         targetLookX = pivotX;
         targetLookY = pivotY;
-        const camDist = radius * 3.4;
+        const camDist = radius * 2.8;
         camX = targetLookX + camDist * 0.40;
         camY = targetLookY + camDist * 0.35;
         camZ = camDist * 1.15;
@@ -384,24 +385,24 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // Mobile Pembahasan: Compact component in center safe area
+        // Mobile Pembahasan: Slightly higher position in center safe area
         pivotX = 0;
-        pivotY = 0;
+        pivotY = radius * 0.25;
         targetLookX = 0;
-        targetLookY = 0;
+        targetLookY = pivotY;
         const camDist = radius * 5.6;
         camX = camDist * 0.40;
-        camY = camDist * 0.55;
+        camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       } else {
-        // Desktop Pembahasan: Component on left side, 3/4 isometric angle
+        // Desktop Pembahasan: Slightly higher position on left side
         pivotX = -radius * 0.45;
-        pivotY = 0;
+        pivotY = radius * 0.15;
         targetLookX = pivotX;
-        targetLookY = 0;
+        targetLookY = pivotY;
         const camDist = radius * 3.5;
         camX = targetLookX + camDist * 0.45;
-        camY = camDist * 0.55;
+        camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       }
     }
@@ -450,19 +451,19 @@ export class ThreeViewer {
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 0.40;
+        pivotY = radius * 0.52;
         targetLookX = 0;
         targetLookY = pivotY;
-        const camDist = radius * 5.4;
+        const camDist = radius * 4.6;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.30;
+        camY = targetLookY + camDist * 0.28;
         camZ = camDist * 1.10;
       } else {
-        pivotX = -radius * 0.65;
-        pivotY = -radius * 0.08;
+        pivotX = -radius * 0.60;
+        pivotY = radius * 0.05;
         targetLookX = pivotX;
         targetLookY = pivotY;
-        const camDist = radius * 3.4;
+        const camDist = radius * 2.8;
         camX = targetLookX + camDist * 0.40;
         camY = targetLookY + camDist * 0.35;
         camZ = camDist * 1.15;
@@ -470,21 +471,21 @@ export class ThreeViewer {
     } else {
       if (isMobile) {
         pivotX = 0;
-        pivotY = 0;
+        pivotY = radius * 0.25;
         targetLookX = 0;
-        targetLookY = 0;
+        targetLookY = pivotY;
         const camDist = radius * 5.6;
         camX = camDist * 0.40;
-        camY = camDist * 0.55;
+        camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       } else {
         pivotX = -radius * 0.45;
-        pivotY = 0;
+        pivotY = radius * 0.15;
         targetLookX = pivotX;
-        targetLookY = 0;
+        targetLookY = pivotY;
         const camDist = radius * 3.5;
         camX = targetLookX + camDist * 0.45;
-        camY = camDist * 0.55;
+        camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       }
     }

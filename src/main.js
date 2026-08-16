@@ -227,24 +227,23 @@ class App {
       `;
     }
 
-    // Update Info Card with concise facts
-    this.elements.compIcon.textContent = comp.icon;
-    this.elements.compTitle.textContent = comp.name;
-    this.elements.compSubtitle.textContent = comp.subtitle;
+    // Update Info Card with concise facts (Clean Component Name & Description Only)
+    if (this.elements.compIcon) this.elements.compIcon.textContent = comp.icon;
+    if (this.elements.compTitle) this.elements.compTitle.textContent = comp.name;
+    if (this.elements.compSubtitle) this.elements.compSubtitle.textContent = comp.subtitle;
+    if (this.elements.compTagline) this.elements.compTagline.textContent = comp.tagline;
+    if (this.elements.compFungsi) this.elements.compFungsi.textContent = comp.explanation.fungsi;
 
-    // Badge styling
-    this.elements.compBootBadge.className = `boot-badge ${comp.bootBadge}`;
-    this.elements.compBootText.textContent = comp.bootRole;
-
-    this.elements.compTagline.textContent = comp.tagline;
-    this.elements.compFungsi.textContent = comp.explanation.fungsi;
-    this.elements.compSyarat.textContent = comp.explanation.syaratBoot;
-    this.elements.compPosisi.textContent = comp.explanation.posisi;
-
-    // Specs Chips
-    this.elements.compSpecsList.innerHTML = comp.specs
-      .map(s => `<div class="spec-chip"><strong>${s.label}:</strong> ${s.value}</div>`)
-      .join('');
+    // Optional legacy element guards
+    if (this.elements.compBootBadge) this.elements.compBootBadge.className = `boot-badge ${comp.bootBadge}`;
+    if (this.elements.compBootText) this.elements.compBootText.textContent = comp.bootRole;
+    if (this.elements.compSyarat) this.elements.compSyarat.textContent = comp.explanation.syaratBoot;
+    if (this.elements.compPosisi) this.elements.compPosisi.textContent = comp.explanation.posisi;
+    if (this.elements.compSpecsList) {
+      this.elements.compSpecsList.innerHTML = comp.specs
+        .map(s => `<div class="spec-chip"><strong>${s.label}:</strong> ${s.value}</div>`)
+        .join('');
+    }
 
     // Load 3D Model into Viewport with pembahasan layout mode
     if (this.elements.loadingTitle) {
