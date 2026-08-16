@@ -362,9 +362,9 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Aim camera downwards below the model so model appears high up in the top 35-45% of the mobile screen
-        targetLookY = -radius * 1.55;
-        camDistance = distance * 1.35;
+        // Mobile Home: Balanced upper-middle placement so model sits nicely above the menu
+        targetLookY = -radius * 0.85;
+        camDistance = distance * 1.32;
       } else {
         // Desktop Home: Aim camera rightwards so model appears on the left side
         targetLookX = radius * 0.45;
@@ -426,8 +426,8 @@ export class ThreeViewer {
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
-        targetLookY = -radius * 1.55;
-        camDistance = distance * 1.35;
+        targetLookY = -radius * 0.85;
+        camDistance = distance * 1.32;
       } else {
         targetLookX = radius * 0.45;
         camDistance = distance * 0.75;
