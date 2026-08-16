@@ -218,12 +218,12 @@ export class ThreeViewer {
               child.castShadow = true;
               child.receiveShadow = true;
               if (child.material) {
+                // Ensure outer casing and solid surfaces are completely opaque and solid (FrontSide)
                 child.material.depthWrite = true;
                 child.material.depthTest = true;
-                if (child.material.opacity >= 0.98) {
-                  child.material.transparent = false;
-                  child.material.side = THREE.DoubleSide;
-                }
+                child.material.transparent = false;
+                child.material.opacity = 1.0;
+                child.material.side = THREE.FrontSide; // Standard solid backface culling - prevents seeing through into the interior!
 
                 // Apply Anisotropic filtering for super sharp, crystal-clear labels & circuit details
                 const textures = [
@@ -245,11 +245,11 @@ export class ThreeViewer {
                   }
                 });
 
-                // Authentic dark cast aluminum / steel metal finish for HDD metal chassis
-                if (!child.material.map && (child.material.name.includes('Material.') || child.material.name.toLowerCase().includes('metal') || child.material.name.toLowerCase().includes('iron'))) {
+                // Authentic dark cast aluminum / steel metal finish for HDD/PSU metal chassis
+                if (!child.material.map && (child.material.name.includes('Material.') || child.material.name.toLowerCase().includes('metal') || child.material.name.toLowerCase().includes('iron') || child.material.name.toLowerCase().includes('case') || child.material.name.toLowerCase().includes('steel'))) {
                   child.material.metalness = 0.88;
                   child.material.roughness = 0.38;
-                  child.material.color.setRGB(0.36, 0.39, 0.44); // Dark gunmetal/steel metallic tone
+                  child.material.color.setRGB(0.32, 0.35, 0.40); // Dark sleek metallic tone
                   child.material.envMapIntensity = 1.0;
                 } else if (child.material.map) {
                   child.material.envMapIntensity = 0.40;
