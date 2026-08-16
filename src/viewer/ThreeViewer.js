@@ -44,20 +44,20 @@ export class ThreeViewer {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x161e2e);
 
-    // 2. Camera
-    this.camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 100);
+    // 2. Camera with optimized clipping planes to prevent Z-fighting flicker
+    this.camera = new THREE.PerspectiveCamera(45, width / height, 0.05, 120);
     this.camera.position.set(0, 1.2, 2.8);
 
-    // 3. Renderer with PBR & Performance Optimization for Low-Spec Devices
+    // 3. Renderer with PBR & Performance Optimization for Low-Spec & High-Spec Devices
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       powerPreference: 'high-performance',
       preserveDrawingBuffer: true // Required for clean HD screenshots
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Lightweight on low-end GPUs
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.0)); // Crystal clear high DPI clarity
     this.renderer.toneMapping = THREE.NeutralToneMapping || THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 0.88; // Anti-glare exposure so white HDD labels & metallic surfaces are crisp & legible
+    this.renderer.toneMappingExposure = 0.90; // Anti-glare exposure so white labels & metallic circuits are crisp & legible
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -72,15 +72,15 @@ export class ThreeViewer {
     pmremGenerator.dispose();
 
 
-    // 4. Sketchfab-style OrbitControls (Smooth & Unrestricted 360°)
+    // 4. Sketchfab-style OrbitControls (Smooth, Buttery & Unrestricted 360°)
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.08;
-    this.controls.rotateSpeed = 1.0;
-    this.controls.zoomSpeed = 1.2;
-    this.controls.panSpeed = 1.0;
+    this.controls.dampingFactor = 0.075;
+    this.controls.rotateSpeed = 0.88;
+    this.controls.zoomSpeed = 1.1;
+    this.controls.panSpeed = 0.88;
     this.controls.minDistance = 0.02;
-    this.controls.maxDistance = 200.0; // Unrestricted far zoom out
+    this.controls.maxDistance = 200.0;
     this.controls.minPolarAngle = 0.01;
     this.controls.maxPolarAngle = Math.PI - 0.01; // Full 360° top-to-bottom rotation
     this.controls.target.set(0, 0, 0);
@@ -135,9 +135,15 @@ export class ThreeViewer {
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.05);
     keyLight.position.set(5, 10, 6);
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 1024;
-    keyLight.shadow.mapSize.height = 1024;
-    keyLight.shadow.bias = -0.0001;
+    keyLight.shadow.mapSize.set(1024, 1024);
+    keyLight.shadow.camera.near = 0.5;
+    keyLight.shadow.camera.far = 25;
+    keyLight.shadow.camera.left = -6;
+    keyLight.shadow.camera.right = 6;
+    keyLight.shadow.camera.top = 6;
+    keyLight.shadow.camera.bottom = -6;
+    keyLight.shadow.bias = -0.0002;
+    keyLight.shadow.normalBias = 0.02;
     this.scene.add(keyLight);
     this.lights.push(keyLight);
 
@@ -148,65 +154,38 @@ export class ThreeViewer {
     this.lights.push(fillLight);
 
     // Top-Back Rim Light (Crisp metallic edge highlights)
-    const rimLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.75);
     rimLight.position.set(0, 8, -6);
     this.scene.add(rimLight);
     this.lights.push(rimLight);
 
-    // Bottom Bounce Light (Gentle underside illumination)
-    const bottomLight = new THREE.DirectionalLight(0xe2e8f0, 0.45);
-    bottomLight.position.set(0, -8, 2);
+    // Subtle Bottom Light (Soft underglow)
+    const bottomLight = new THREE.DirectionalLight(0x6366f1, 0.45);
+    bottomLight.position.set(0, -6, 0);
     this.scene.add(bottomLight);
     this.lights.push(bottomLight);
   }
 
 
   setupLoaders() {
-    this.gltfLoader = new GLTFLoader();
-
-    // Setup DRACOLoader for compressed meshes
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+    dracoLoader.preload();
+
+    this.gltfLoader = new GLTFLoader();
     this.gltfLoader.setDRACOLoader(dracoLoader);
   }
 
   /**
-   * Preload a list of 3D models into memory in the background
+   * Preload 3D models into memory cache
    */
   preloadModels(urls) {
-    if (!urls || !Array.isArray(urls)) return;
     urls.forEach((url) => {
       if (this.modelCache.has(url)) return;
       this.gltfLoader.load(
         url,
         (gltf) => {
-          const model = gltf.scene;
-          model.traverse((child) => {
-            if (child.isMesh) {
-              child.castShadow = true;
-              child.receiveShadow = true;
-              if (child.material) {
-                child.material.side = THREE.DoubleSide;
-                child.material.depthWrite = true;
-                if (child.material.opacity >= 0.98) {
-                  child.material.transparent = false;
-                }
-                if (child.material.map) {
-                  child.material.map.colorSpace = THREE.SRGBColorSpace;
-                }
-                if (child.material.map) {
-                  child.material.envMapIntensity = 0.35;
-                  if (child.material.color) {
-                    child.material.color.setRGB(0.82, 0.82, 0.82);
-                  }
-                } else {
-                  child.material.envMapIntensity = 0.6;
-                }
-                child.material.needsUpdate = true;
-              }
-            }
-          });
-          this.modelCache.set(url, model);
+          this.modelCache.set(url, gltf.scene);
         },
         undefined,
         (err) => console.warn('Background preload skipped:', url, err)
@@ -231,21 +210,40 @@ export class ThreeViewer {
         url,
         (gltf) => {
           const model = gltf.scene;
+          const maxAniso = this.renderer ? this.renderer.capabilities.getMaxAnisotropy() : 4;
 
-          // Enable shadows and apply anti-glare balanced PBR materials tuning
+          // Enable shadows, anisotropic crisp textures and apply anti-glare balanced PBR materials tuning
           model.traverse((child) => {
             if (child.isMesh) {
               child.castShadow = true;
               child.receiveShadow = true;
               if (child.material) {
-                child.material.side = THREE.DoubleSide;
                 child.material.depthWrite = true;
+                child.material.depthTest = true;
                 if (child.material.opacity >= 0.98) {
                   child.material.transparent = false;
+                  child.material.side = THREE.DoubleSide;
                 }
-                if (child.material.map) {
-                  child.material.map.colorSpace = THREE.SRGBColorSpace;
-                }
+
+                // Apply Anisotropic filtering for super sharp, crystal-clear labels & circuit details
+                const textures = [
+                  child.material.map,
+                  child.material.normalMap,
+                  child.material.roughnessMap,
+                  child.material.metalnessMap,
+                  child.material.emissiveMap
+                ];
+
+                textures.forEach((tex) => {
+                  if (tex) {
+                    tex.colorSpace = THREE.SRGBColorSpace;
+                    tex.generateMipmaps = true;
+                    tex.minFilter = THREE.LinearMipmapLinearFilter;
+                    tex.magFilter = THREE.LinearFilter;
+                    tex.anisotropy = Math.min(maxAniso, 8);
+                    tex.needsUpdate = true;
+                  }
+                });
 
                 // Authentic dark cast aluminum / steel metal finish for HDD metal chassis
                 if (!child.material.map && (child.material.name.includes('Material.') || child.material.name.toLowerCase().includes('metal') || child.material.name.toLowerCase().includes('iron'))) {
@@ -254,9 +252,9 @@ export class ThreeViewer {
                   child.material.color.setRGB(0.36, 0.39, 0.44); // Dark gunmetal/steel metallic tone
                   child.material.envMapIntensity = 1.0;
                 } else if (child.material.map) {
-                  child.material.envMapIntensity = 0.35;
+                  child.material.envMapIntensity = 0.40;
                   if (child.material.color) {
-                    child.material.color.setRGB(0.82, 0.82, 0.82); // Anti-glare on sticker labels
+                    child.material.color.setRGB(0.85, 0.85, 0.85); // Anti-glare on sticker labels
                   }
                 } else {
                   child.material.envMapIntensity = 0.6;
