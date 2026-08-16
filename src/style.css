@@ -966,6 +966,53 @@ html, body {
   color: var(--text-muted);
 }
 
+.card-header-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-card-audio {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  color: var(--primary-cyan);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-card-audio svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-card-audio:hover,
+.btn-card-audio.playing,
+.hud-btn.playing {
+  color: #fff !important;
+  border-color: var(--primary-cyan) !important;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.45), rgba(99, 102, 241, 0.45)) !important;
+  box-shadow: 0 0 16px var(--primary-cyan-glow) !important;
+  transform: scale(1.08);
+}
+
+.btn-card-audio.playing,
+.hud-btn.playing {
+  animation: pulse-audio 1.3s infinite ease-in-out;
+}
+
+@keyframes pulse-audio {
+  0%, 100% { box-shadow: 0 0 10px var(--primary-cyan-glow); transform: scale(1.04); }
+  50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.85); transform: scale(1.12); }
+}
+
 .btn-card-collapse {
   width: 32px;
   height: 32px;

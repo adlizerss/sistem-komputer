@@ -100,8 +100,8 @@ class App {
       btnAutoRotate: document.getElementById('btn-auto-rotate'),
       iconPlay: document.querySelector('.icon-play'),
       iconPause: document.querySelector('.icon-pause'),
-      btnWireframe: document.getElementById('btn-wireframe'),
-      btnLighting: document.getElementById('btn-lighting'),
+      btnAudioNarrate: document.getElementById('btn-audio-narrate'),
+      btnCardAudio: document.getElementById('btn-card-audio'),
       btnScreenshot: document.getElementById('btn-screenshot'),
 
       // Top Actions & Modals
@@ -245,6 +245,9 @@ class App {
         .join('');
     }
 
+    // Stop previous audio narration when changing component
+    this.stopAudioNarration();
+
     // Load 3D Model into Viewport with pembahasan layout mode
     if (this.elements.loadingTitle) {
       this.elements.loadingTitle.textContent = `Memuat ${comp.name}...`;
@@ -252,8 +255,72 @@ class App {
     this.viewer.loadModel(comp.modelFile, comp.cameraOffset, 'pembahasan');
   }
 
+  toggleAudioNarration() {
+    if (!('speechSynthesis' in window)) {
+      alert('Browser Anda tidak mendukung fitur pemutar suara.');
+      return;
+    }
+
+    if (window.speechSynthesis.speaking) {
+      this.stopAudioNarration();
+      return;
+    }
+
+    const currentComp = COMPONENTS_DATA[this.selectedComponentIndex];
+    if (!currentComp) return;
+
+    window.speechSynthesis.cancel();
+
+    // Natural Indonesian narration text
+    const textToSpeak = `${currentComp.name}. ${currentComp.tagline} ${currentComp.explanation.fungsi}`;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'id-ID';
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+
+    const voices = window.speechSynthesis.getVoices();
+    const idVoice = voices.find(v => (v.lang && v.lang.toLowerCase().includes('id')) || (v.name && v.name.toLowerCase().includes('indonesia')));
+    if (idVoice) {
+      utterance.voice = idVoice;
+    }
+
+    utterance.onstart = () => {
+      this.setAudioPlayingState(true);
+    };
+
+    utterance.onend = () => {
+      this.setAudioPlayingState(false);
+    };
+
+    utterance.onerror = () => {
+      this.setAudioPlayingState(false);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  stopAudioNarration() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    this.setAudioPlayingState(false);
+  }
+
+  setAudioPlayingState(isPlaying) {
+    this.isAudioPlaying = isPlaying;
+    const audioButtons = [this.elements.btnAudioNarrate, this.elements.btnCardAudio].filter(Boolean);
+    audioButtons.forEach(btn => {
+      btn.classList.toggle('playing', isPlaying);
+      const playIcon = btn.querySelector('.icon-audio-play');
+      const stopIcon = btn.querySelector('.icon-audio-stop');
+      if (playIcon) playIcon.classList.toggle('hidden', isPlaying);
+      if (stopIcon) stopIcon.classList.toggle('hidden', !isPlaying);
+    });
+  }
+
   switchTab(tabName) {
     this.activeTab = tabName;
+    this.stopAudioNarration();
 
     // Update Tab Buttons
     if (this.elements.tabBeranda) {
@@ -601,19 +668,24 @@ class App {
       this.elements.iconPause.classList.toggle('hidden', !isRotating);
     });
 
-    this.elements.btnWireframe.addEventListener('click', () => {
-      const isWire = this.viewer.toggleWireframe();
-      this.elements.btnWireframe.classList.toggle('active', isWire);
-    });
-
-    this.elements.btnLighting.addEventListener('click', () => {
-      const mode = this.viewer.cycleLightingMode();
-      const labels = ['Studio', 'Cyber Neon', 'Daylight'];
-      const tooltip = this.elements.btnLighting.querySelector('.hud-tooltip');
-      if (tooltip) {
-        tooltip.textContent = `Pencahayaan: ${labels[mode]}`;
+    // Audio Narration Buttons (HUD & Card Header)
+    const audioAction = (e) => {
+      if (e) {
+        e.stopPropagation();
+        if (e.type === 'touchend') e.preventDefault();
       }
-    });
+      this.toggleAudioNarration();
+    };
+
+    if (this.elements.btnAudioNarrate) {
+      this.elements.btnAudioNarrate.addEventListener('click', audioAction);
+      this.elements.btnAudioNarrate.addEventListener('touchend', audioAction);
+    }
+
+    if (this.elements.btnCardAudio) {
+      this.elements.btnCardAudio.addEventListener('click', audioAction);
+      this.elements.btnCardAudio.addEventListener('touchend', audioAction);
+    }
 
     this.elements.btnScreenshot.addEventListener('click', () => {
       const currentName = this.activeTab === 'pembahasan' 

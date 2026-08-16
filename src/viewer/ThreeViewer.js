@@ -541,58 +541,7 @@ export class ThreeViewer {
     return this.isAutoRotating;
   }
 
-  /**
-   * Toggle wireframe mode
-   */
-  toggleWireframe() {
-    this.isWireframe = !this.isWireframe;
-    if (this.currentModel) {
-      this.currentModel.traverse((child) => {
-        if (child.isMesh && child.material) {
-          child.material.wireframe = this.isWireframe;
-        }
-      });
-    }
-    return this.isWireframe;
-  }
 
-  /**
-   * Cycle lighting presets
-   */
-  cycleLightingMode() {
-    this.lightingModeIndex = (this.lightingModeIndex + 1) % 3;
-
-    if (this.lightingModeIndex === 0) {
-      // Clean Bright Studio (Default)
-      this.renderer.toneMappingExposure = 1.0;
-      this.scene.background.set(0x131a2a);
-      if (this.lights[0]) this.lights[0].intensity = 1.3; // hemi
-      if (this.lights[1]) this.lights[1].intensity = 1.9; // key
-      if (this.lights[2]) this.lights[2].intensity = 1.2; // fill
-      if (this.lights[3]) this.lights[3].intensity = 1.4; // rim
-      if (this.lights[4]) this.lights[4].intensity = 0.9; // bottom
-    } else if (this.lightingModeIndex === 1) {
-      // Cyber Neon Glow (High Saturation)
-      this.renderer.toneMappingExposure = 1.1;
-      this.scene.background.set(0x0a0e17);
-      if (this.lights[0]) this.lights[0].intensity = 0.8;
-      if (this.lights[1]) this.lights[1].intensity = 1.6;
-      if (this.lights[2]) this.lights[2].intensity = 1.8;
-      if (this.lights[3]) this.lights[3].intensity = 2.0;
-      if (this.lights[4]) this.lights[4].intensity = 1.0;
-    } else {
-      // Crisp Daylight HD
-      this.renderer.toneMappingExposure = 1.1;
-      this.scene.background.set(0x1a2333);
-      if (this.lights[0]) this.lights[0].intensity = 1.6;
-      if (this.lights[1]) this.lights[1].intensity = 2.2;
-      if (this.lights[2]) this.lights[2].intensity = 1.4;
-      if (this.lights[3]) this.lights[3].intensity = 1.6;
-      if (this.lights[4]) this.lights[4].intensity = 1.0;
-    }
-
-    return this.lightingModeIndex;
-  }
 
 
   /**
