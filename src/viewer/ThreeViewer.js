@@ -49,18 +49,19 @@ export class ThreeViewer {
     this.camera.position.set(0, 1.2, 2.8);
 
     // 3. Renderer with PBR & Performance Optimization for Low-Spec & High-Spec Devices
+    const isMobile = width <= 768;
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       powerPreference: 'high-performance',
       preserveDrawingBuffer: true // Required for clean HD screenshots
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.0)); // Crystal clear high DPI clarity
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.6 : 2.0)); // Ultra-sharp without mobile GPU fillrate bottleneck
     this.renderer.toneMapping = THREE.NeutralToneMapping || THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.90; // Anti-glare exposure so white labels & metallic circuits are crisp & legible
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = isMobile ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
 
     this.container.appendChild(this.renderer.domElement);
 
@@ -132,10 +133,12 @@ export class ThreeViewer {
     this.lights.push(hemiLight);
 
     // Primary Key Light (Balanced directional light with soft shadow)
+    const isMobile = window.innerWidth <= 768;
     const keyLight = new THREE.DirectionalLight(0xffffff, 1.05);
     keyLight.position.set(5, 10, 6);
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.set(1024, 1024);
+    const shadowRes = isMobile ? 512 : 1024;
+    keyLight.shadow.mapSize.set(shadowRes, shadowRes);
     keyLight.shadow.camera.near = 0.5;
     keyLight.shadow.camera.far = 25;
     keyLight.shadow.camera.left = -6;
@@ -210,11 +213,9 @@ export class ThreeViewer {
           textures.forEach((tex) => {
             if (tex) {
               tex.colorSpace = THREE.SRGBColorSpace;
-              tex.generateMipmaps = true;
-              tex.minFilter = THREE.LinearMipmapLinearFilter;
-              tex.magFilter = THREE.LinearFilter;
-              tex.anisotropy = Math.min(maxAniso, 8);
-              tex.needsUpdate = true;
+              if (tex.anisotropy !== Math.min(maxAniso, 4)) {
+                tex.anisotropy = Math.min(maxAniso, 4);
+              }
             }
           });
 
@@ -233,7 +234,6 @@ export class ThreeViewer {
             child.material.envMapIntensity = 0.6;
           }
 
-          child.material.needsUpdate = true;
           if (this.isWireframe) {
             child.material.wireframe = true;
           }
@@ -277,22 +277,34 @@ export class ThreeViewer {
     return new Promise((resolve, reject) => {
       this.gltfLoader.load(
         url,
-        (gltf) => {
+        async (gltf) => {
           const model = gltf.scene;
           this.processModelMaterials(model);
 
           // Cache raw model
           this.modelCache.set(url, model);
 
-          // Display
+          // Display model
           this.displayLoadedModel(model.clone(), customOffset, layoutMode);
+
+          // Pre-compile shaders in background so first frame renders with 0 jank
+          try {
+            if (this.renderer.compileAsync) {
+              await this.renderer.compileAsync(this.scene, this.camera);
+            } else {
+              this.renderer.compile(this.scene, this.camera);
+            }
+          } catch (e) {
+            // Ignore compile fallback
+          }
+
           this.onLoadingProgress(100);
           resolve(model);
         },
         (xhr) => {
           if (xhr.lengthComputable) {
             const percent = Math.round((xhr.loaded / xhr.total) * 100);
-            this.onLoadingProgress(Math.min(percent, 99));
+            this.onLoadingProgress(Math.min(percent, 95));
           } else {
             this.onLoadingProgress(60);
           }
