@@ -306,26 +306,26 @@
       </div>
 
       <!-- Floating Standalone Unhide Action Button (Appears when sheet is minimized) -->
-      <button id="btn-unhide-sheet" class="floating-unhide-btn hidden" title="Buka Papan Penjelasan Komponen">
+      <button id="btn-unhide-sheet" class="floating-unhide-btn hidden" title="Buka Penjelasan Komponen" aria-label="Buka Penjelasan Komponen">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="unhide-icon">
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
         </svg>
-        <span class="unhide-text">Buka Penjelasan</span>
-        <span class="unhide-arrow">▲</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="unhide-chevron">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
       </button>
 
       <!-- ============================================== -->
       <!-- VIEW 1: PEMBAHASAN INFO CARD (Right Floating Panel) -->
       <!-- ============================================== -->
       <aside id="panel-pembahasan" class="side-floating-card view-section hidden">
-        <div id="btn-toggle-sheet" class="sheet-handle-bar" title="Sembunyikan Papan Penjelasan">
+        <div id="btn-toggle-sheet" class="sheet-handle-bar" title="Sembunyikan Papan Penjelasan" aria-label="Sembunyikan Papan Penjelasan">
           <span class="sheet-handle-pill"></span>
-          <span class="sheet-minimize-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="minimize-icon">
+          <span class="sheet-minimize-chevron">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
-            Sembunyikan
           </span>
         </div>
 
