@@ -111,9 +111,8 @@ export class ThreeViewer {
   setInteractive(isInteractive) {
     if (!isInteractive) {
       this.controls.enabled = false;
-      this.controls.autoRotate = true;
-      this.controls.autoRotateSpeed = -1.6; // Turn left
-      this.isAutoRotating = true;
+      this.controls.autoRotate = false; // Disable controls autoRotate to prevent eccentric orbit wobble
+      this.isAutoRotating = true; // Pure turntable spin around model's exact geometric center
     } else {
       this.controls.enabled = true;
       this.controls.autoRotate = false;
@@ -381,6 +380,8 @@ export class ThreeViewer {
       }
     }
 
+    // Position Model Pivot Group cleanly at targeted world location
+    pivot.position.set(targetX, targetY, 0);
     this.controls.target.set(targetX, targetY, 0);
     this.controls.minDistance = Math.max(radius * 0.1, 0.01);
     this.controls.maxDistance = Math.max(radius * 40.0, 50.0);
@@ -440,6 +441,7 @@ export class ThreeViewer {
       }
     }
 
+    this.currentModel.position.set(targetX, targetY, 0);
     this.animateCameraTo(
       new THREE.Vector3(targetX + camDistance * 0.75, targetY + camDistance * 0.42, camDistance * 1.05),
       new THREE.Vector3(targetX, targetY, 0)
@@ -453,6 +455,7 @@ export class ThreeViewer {
    */
   toggleAutoRotate() {
     this.isAutoRotating = !this.isAutoRotating;
+    this.controls.autoRotate = false;
     return this.isAutoRotating;
   }
 
