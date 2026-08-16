@@ -348,62 +348,71 @@ export class ThreeViewer {
 
     // Position Camera with optimal framing distance based on object size
     const radius = Math.max(sphere.radius, 0.1);
-    const distance = radius * 2.3;
-
     this.currentLayoutMode = layoutMode;
     const isMobile = window.innerWidth <= 768;
 
-    // Position Pivot Group at origin (0,0,0)
-    pivot.position.set(0, 0, 0);
-
+    let pivotX = 0;
+    let pivotY = 0;
     let targetLookX = 0;
-    let targetCamX = 0;
-    let targetCamY = 0;
-    let targetCamZ = 0;
+    let targetLookY = 0;
+    let camX = 0;
+    let camY = 0;
+    let camZ = 0;
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Generous framing so the entire PC desk & monitor fits in the upper viewport
-        targetLookY = -radius * 0.50;
-        camDistance = distance * 2.85;
-        targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.45;
-        targetCamZ = camDistance * 1.05;
+        // Mobile Home: Place model in upper half, generous wide portrait framing
+        pivotX = 0;
+        pivotY = radius * 0.40;
+        targetLookX = 0;
+        targetLookY = pivotY;
+        const camDist = radius * 5.4;
+        camX = camDist * 0.35;
+        camY = targetLookY + camDist * 0.30;
+        camZ = camDist * 1.10;
       } else {
-        // Desktop Home: Generous framing on left side so full desk setup is visible without excessive zoom
-        targetLookX = radius * 0.40;
-        targetLookY = -radius * 0.15;
-        camDistance = distance * 2.1;
-        targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.45;
-        targetCamZ = camDistance * 1.05;
+        // Desktop Home: Place model on left side of screen, right side for menu
+        pivotX = -radius * 0.65;
+        pivotY = -radius * 0.08;
+        targetLookX = pivotX;
+        targetLookY = pivotY;
+        const camDist = radius * 3.4;
+        camX = targetLookX + camDist * 0.40;
+        camY = targetLookY + camDist * 0.35;
+        camZ = camDist * 1.15;
       }
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile: Compact component size with plenty of space in all directions
-        targetLookY = -radius * 0.25;
-        camDistance = distance * 4.5;
-        targetCamX = targetLookX + camDistance * 0.60;
-        targetCamY = targetLookY + camDistance * 0.80;
-        targetCamZ = camDistance * 1.05;
-      } else {
-        // On desktop: Compact component size with angled 3/4 isometric framing
-        targetLookX = radius * 0.30;
+        // Mobile Pembahasan: Compact component in center safe area
+        pivotX = 0;
+        pivotY = 0;
+        targetLookX = 0;
         targetLookY = 0;
-        camDistance = distance * 2.6;
-        targetCamX = targetLookX + camDistance * 0.65;
-        targetCamY = targetLookY + camDistance * 0.70;
-        targetCamZ = camDistance * 1.05;
+        const camDist = radius * 5.6;
+        camX = camDist * 0.40;
+        camY = camDist * 0.55;
+        camZ = camDist * 0.95;
+      } else {
+        // Desktop Pembahasan: Component on left side, 3/4 isometric angle
+        pivotX = -radius * 0.45;
+        pivotY = 0;
+        targetLookX = pivotX;
+        targetLookY = 0;
+        const camDist = radius * 3.5;
+        camX = targetLookX + camDist * 0.45;
+        camY = camDist * 0.55;
+        camZ = camDist * 0.95;
       }
     }
 
+    pivot.position.set(pivotX, pivotY, 0);
     this.controls.target.set(targetLookX, targetLookY, 0);
     this.controls.minDistance = Math.max(radius * 0.1, 0.01);
     this.controls.maxDistance = Math.max(radius * 40.0, 50.0);
 
     // Position camera looking directly at targetLook
-    this.camera.position.set(targetCamX, targetCamY, targetCamZ);
+    this.camera.position.set(camX, camY, camZ);
     this.controls.update();
     this.animatingCamera = false;
   }
@@ -428,51 +437,61 @@ export class ThreeViewer {
     const box = new THREE.Box3().setFromObject(this.currentModel);
     const sphere = box.getBoundingSphere(new THREE.Sphere());
     const radius = Math.max(sphere.radius, 0.05);
-    const distance = radius * 2.2;
 
     const isMobile = window.innerWidth <= 768;
+    let pivotX = 0;
+    let pivotY = 0;
     let targetLookX = 0;
     let targetLookY = 0;
-    let camDistance = distance;
-    let targetCamX = 0;
-    let targetCamY = 0;
-    let targetCamZ = 0;
+    let camX = 0;
+    let camY = 0;
+    let camZ = 0;
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
-        targetLookY = -radius * 0.50;
-        camDistance = distance * 2.85;
-        targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.45;
-        targetCamZ = camDistance * 1.05;
+        pivotX = 0;
+        pivotY = radius * 0.40;
+        targetLookX = 0;
+        targetLookY = pivotY;
+        const camDist = radius * 5.4;
+        camX = camDist * 0.35;
+        camY = targetLookY + camDist * 0.30;
+        camZ = camDist * 1.10;
       } else {
-        targetLookX = radius * 0.40;
-        targetLookY = -radius * 0.15;
-        camDistance = distance * 2.1;
-        targetCamX = targetLookX + camDistance * 0.75;
-        targetCamY = targetLookY + camDistance * 0.45;
-        targetCamZ = camDistance * 1.05;
+        pivotX = -radius * 0.65;
+        pivotY = -radius * 0.08;
+        targetLookX = pivotX;
+        targetLookY = pivotY;
+        const camDist = radius * 3.4;
+        camX = targetLookX + camDist * 0.40;
+        camY = targetLookY + camDist * 0.35;
+        camZ = camDist * 1.15;
       }
     } else {
       if (isMobile) {
-        targetLookY = -radius * 0.25;
-        camDistance = distance * 4.5;
-        targetCamX = targetLookX + camDistance * 0.60;
-        targetCamY = targetLookY + camDistance * 0.80;
-        targetCamZ = camDistance * 1.05;
-      } else {
-        targetLookX = radius * 0.30;
+        pivotX = 0;
+        pivotY = 0;
+        targetLookX = 0;
         targetLookY = 0;
-        camDistance = distance * 2.6;
-        targetCamX = targetLookX + camDistance * 0.65;
-        targetCamY = targetLookY + camDistance * 0.70;
-        targetCamZ = camDistance * 1.05;
+        const camDist = radius * 5.6;
+        camX = camDist * 0.40;
+        camY = camDist * 0.55;
+        camZ = camDist * 0.95;
+      } else {
+        pivotX = -radius * 0.45;
+        pivotY = 0;
+        targetLookX = pivotX;
+        targetLookY = 0;
+        const camDist = radius * 3.5;
+        camX = targetLookX + camDist * 0.45;
+        camY = camDist * 0.55;
+        camZ = camDist * 0.95;
       }
     }
 
-    this.currentModel.position.set(0, 0, 0);
+    this.currentModel.position.set(pivotX, pivotY, 0);
     this.animateCameraTo(
-      new THREE.Vector3(targetCamX, targetCamY, targetCamZ),
+      new THREE.Vector3(camX, camY, camZ),
       new THREE.Vector3(targetLookX, targetLookY, 0)
     );
   }
