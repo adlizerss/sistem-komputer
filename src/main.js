@@ -265,7 +265,10 @@ class App {
       this.viewer.setInteractive(true);
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.add('hidden');
-      if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.remove('hidden');
+      if (this.elements.panelPembahasan) {
+        this.elements.panelPembahasan.classList.remove('hidden');
+        this.elements.panelPembahasan.classList.remove('sheet-collapsed');
+      }
       if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.remove('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.remove('hidden');
