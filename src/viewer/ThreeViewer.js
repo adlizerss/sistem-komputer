@@ -380,18 +380,18 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile: Position model slightly lower into safe center area, moderate size, with elevated 3/4 isometric view
-        targetLookY = -radius * 0.15;
-        camDistance = distance * 2.25;
-        targetCamX = targetLookX + camDistance * 0.65;
-        targetCamY = targetLookY + camDistance * 0.85; // Angled from above to clearly show component surface details
-        targetCamZ = camDistance * 0.95;
+        // On mobile: Position model in safe center area, noticeably smaller and compact, with elevated 3/4 isometric view
+        targetLookY = -radius * 0.25;
+        camDistance = distance * 3.4;
+        targetCamX = targetLookX + camDistance * 0.60;
+        targetCamY = targetLookY + camDistance * 0.80; // Angled from above to clearly show component surface details
+        targetCamZ = camDistance * 1.05;
       } else {
         // On desktop: Shift component model slightly left with angled view
         targetLookX = radius * 0.35;
-        camDistance = distance * 1.05;
-        targetCamX = targetLookX + camDistance * 0.72;
-        targetCamY = targetLookY + camDistance * 0.68;
+        camDistance = distance * 1.25;
+        targetCamX = targetLookX + camDistance * 0.70;
+        targetCamY = targetLookY + camDistance * 0.65;
         targetCamZ = camDistance * 1.05;
       }
     }
@@ -452,16 +452,16 @@ export class ThreeViewer {
       }
     } else {
       if (isMobile) {
-        targetLookY = -radius * 0.15;
-        camDistance = distance * 2.25;
-        targetCamX = targetLookX + camDistance * 0.65;
-        targetCamY = targetLookY + camDistance * 0.85;
-        targetCamZ = camDistance * 0.95;
+        targetLookY = -radius * 0.25;
+        camDistance = distance * 3.4;
+        targetCamX = targetLookX + camDistance * 0.60;
+        targetCamY = targetLookY + camDistance * 0.80;
+        targetCamZ = camDistance * 1.05;
       } else {
         targetLookX = radius * 0.35;
-        camDistance = distance * 1.05;
-        targetCamX = targetLookX + camDistance * 0.72;
-        targetCamY = targetLookY + camDistance * 0.68;
+        camDistance = distance * 1.25;
+        targetCamX = targetLookX + camDistance * 0.70;
+        targetCamY = targetLookY + camDistance * 0.65;
         targetCamZ = camDistance * 1.05;
       }
     }

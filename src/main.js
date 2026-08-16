@@ -157,6 +157,7 @@ class App {
   }
 
   renderBottomCarousel() {
+    if (!this.elements.componentsCarousel) return;
     this.elements.componentsCarousel.innerHTML = '';
 
     COMPONENTS_DATA.forEach((comp, index) => {
@@ -191,11 +192,13 @@ class App {
     const comp = COMPONENTS_DATA[index];
     if (!comp) return;
 
-    // Update Active Button in Carousel
-    const buttons = this.elements.componentsCarousel.querySelectorAll('.comp-item-btn');
-    buttons.forEach((btn, idx) => {
-      btn.classList.toggle('active', idx === index);
-    });
+    // Update Active Button in Carousel (if exists)
+    if (this.elements.componentsCarousel) {
+      const buttons = this.elements.componentsCarousel.querySelectorAll('.comp-item-btn');
+      buttons.forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === index);
+      });
+    }
 
     // Update Active Chip in Top Chips Bar
     if (this.elements.compChipsContainer) {
