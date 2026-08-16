@@ -71,6 +71,10 @@ html, body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: radial-gradient(circle at 50% 20%, #111a2e 0%, var(--bg-dark-900) 80%);
@@ -1593,83 +1597,86 @@ html, body {
     gap: 5px;
   }
 
-  /* Home Menu Hero - Clean Bottom Dock with Safe Separation from 3D */
+  /* Home Menu Hero - Compact Bottom Dock */
   .home-center-overlay {
     justify-content: center;
     align-items: flex-end;
-    padding: 0 14px 28px;
-    padding-bottom: max(28px, calc(16px + env(safe-area-inset-bottom)));
+    padding: 0 14px 16px;
+    padding-bottom: max(16px, calc(8px + env(safe-area-inset-bottom)));
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
   }
 
   .home-menu-box {
-    padding: 12px 14px 14px;
-    border-radius: 22px;
-    max-width: 350px;
+    padding: 8px 12px 10px;
+    border-radius: 18px;
+    max-width: 320px;
     width: 100%;
     gap: 0;
-    margin-bottom: 8px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(6, 182, 212, 0.15);
+    margin-bottom: 2px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85), 0 0 20px rgba(6, 182, 212, 0.15);
   }
 
   .home-logo-badge {
-    margin-bottom: 2px;
+    display: none; /* Hide top badge on mobile so menu is super compact */
   }
 
   .logo-icon-box.large {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
   }
 
   .logo-icon-box.large svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .home-main-title {
-    font-size: 1.1rem;
-    margin-top: 2px;
-    gap: 6px;
-  }
-
-  .home-main-subtitle {
-    font-size: 0.68rem;
-    margin-top: 2px;
-    margin-bottom: 8px;
-  }
-
-  .home-buttons-stack {
-    gap: 6px;
-  }
-
-  .btn-menu-hero {
-    padding: 7px 11px;
-    border-radius: 11px;
-    gap: 8px;
-  }
-
-  .btn-menu-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 7px;
-  }
-
-  .btn-menu-icon svg {
     width: 14px;
     height: 14px;
   }
 
+  .home-main-title {
+    font-size: 0.98rem;
+    margin-top: 0;
+    gap: 4px;
+  }
+
+  .home-main-subtitle {
+    font-size: 0.62rem;
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+
+  .home-buttons-stack {
+    gap: 4px;
+  }
+
+  .btn-menu-hero {
+    padding: 5px 9px;
+    border-radius: 9px;
+    gap: 7px;
+  }
+
+  .btn-menu-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+  }
+
+  .btn-menu-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+
   .btn-menu-text .btn-title {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .btn-menu-text .btn-desc {
-    font-size: 0.63rem;
+    font-size: 0.58rem;
   }
 
   .btn-chevron {
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
   }
 
   /* Floating Standalone Component Navigator (Mobile) */
@@ -2088,46 +2095,46 @@ html, body {
   }
 
   .home-center-overlay {
-    padding: 0 10px 24px;
-    padding-bottom: max(24px, calc(14px + env(safe-area-inset-bottom)));
+    padding: 0 8px 12px;
+    padding-bottom: max(12px, calc(6px + env(safe-area-inset-bottom)));
   }
 
   .home-menu-box {
-    padding: 11px 12px 13px;
-    border-radius: 20px;
-    max-width: 330px;
-    margin-bottom: 6px;
+    padding: 7px 10px 9px;
+    border-radius: 16px;
+    max-width: 305px;
+    margin-bottom: 0;
   }
 
   .home-main-title {
-    font-size: 1.05rem;
-    gap: 5px;
+    font-size: 0.95rem;
+    gap: 4px;
   }
 
   .home-main-subtitle {
-    font-size: 0.65rem;
-    margin-bottom: 6px;
+    font-size: 0.6rem;
+    margin-bottom: 4px;
   }
 
   .home-buttons-stack {
-    gap: 5px;
+    gap: 4px;
   }
 
   .btn-menu-hero {
-    padding: 6px 10px;
-    gap: 7px;
+    padding: 5px 8px;
+    gap: 6px;
   }
 
   .btn-menu-icon {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
   }
 
   .btn-menu-text .btn-title {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
   }
 
   .btn-menu-text .btn-desc {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
   }
 }

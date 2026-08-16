@@ -353,43 +353,44 @@ export class ThreeViewer {
     this.currentLayoutMode = layoutMode;
     const isMobile = window.innerWidth <= 768;
 
-    let modelPosX = 0;
-    let modelPosY = 0;
+    // Position Pivot Group at origin (0,0,0)
+    pivot.position.set(0, 0, 0);
+
+    let targetLookX = 0;
+    let targetLookY = 0;
     let camDistance = distance;
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Elevate 3D PC setup into the top 45% of the screen
-        modelPosY = radius * 0.82;
+        // Mobile Home: Aim camera downwards below the model so model appears high up in the top 35-45% of the mobile screen
+        targetLookY = -radius * 1.55;
         camDistance = distance * 1.35;
       } else {
-        // Desktop Home: Shift 3D model to the left side
-        modelPosX = -radius * 0.35;
+        // Desktop Home: Aim camera rightwards so model appears on the left side
+        targetLookX = radius * 0.45;
         camDistance = distance * 0.75;
       }
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile, position component model in upper viewport with moderate, non-intrusive size
-        modelPosY = radius * 0.78;
-        camDistance = distance * 1.95;
+        // On mobile, aim camera below component so component appears centered in the upper viewport with plenty of room
+        targetLookY = -radius * 1.25;
+        camDistance = distance * 1.85;
       } else {
         // On desktop, shift component model slightly left
-        modelPosX = -radius * 0.22;
+        targetLookX = radius * 0.35;
         camDistance = distance * 1.05;
       }
     }
 
-    // Position Model Pivot Group cleanly in 3D world space
-    pivot.position.set(modelPosX, modelPosY, 0);
-    this.controls.target.set(modelPosX, modelPosY, 0);
+    this.controls.target.set(targetLookX, targetLookY, 0);
     this.controls.minDistance = Math.max(radius * 0.1, 0.01);
     this.controls.maxDistance = Math.max(radius * 40.0, 50.0);
 
-    // Position camera looking directly at the model center
+    // Position camera looking directly at targetLook
     this.camera.position.set(
-      modelPosX + camDistance * 0.75,
-      modelPosY + camDistance * 0.42,
+      targetLookX + camDistance * 0.75,
+      targetLookY + camDistance * 0.42,
       camDistance * 1.05
     );
     this.controls.update();
@@ -419,32 +420,32 @@ export class ThreeViewer {
     const distance = radius * 2.2;
 
     const isMobile = window.innerWidth <= 768;
-    let modelPosX = 0;
-    let modelPosY = 0;
+    let targetLookX = 0;
+    let targetLookY = 0;
     let camDistance = distance;
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
-        modelPosY = radius * 0.82;
+        targetLookY = -radius * 1.55;
         camDistance = distance * 1.35;
       } else {
-        modelPosX = -radius * 0.35;
+        targetLookX = radius * 0.45;
         camDistance = distance * 0.75;
       }
     } else {
       if (isMobile) {
-        modelPosY = radius * 0.78;
-        camDistance = distance * 1.95;
+        targetLookY = -radius * 1.25;
+        camDistance = distance * 1.85;
       } else {
-        modelPosX = -radius * 0.22;
+        targetLookX = radius * 0.35;
         camDistance = distance * 1.05;
       }
     }
 
-    this.currentModel.position.set(modelPosX, modelPosY, 0);
+    this.currentModel.position.set(0, 0, 0);
     this.animateCameraTo(
-      new THREE.Vector3(modelPosX + camDistance * 0.75, modelPosY + camDistance * 0.42, camDistance * 1.05),
-      new THREE.Vector3(modelPosX, modelPosY, 0)
+      new THREE.Vector3(targetLookX + camDistance * 0.75, targetLookY + camDistance * 0.42, camDistance * 1.05),
+      new THREE.Vector3(targetLookX, targetLookY, 0)
     );
   }
 
