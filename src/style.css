@@ -1767,16 +1767,17 @@ html, body {
     height: 17px;
   }
 
-  /* Floating HUD Controls - Sleek Top-Left Horizontal (Reset, Putar, Suara, Screenshot) */
+  /* Floating HUD Controls - Sleek Centered Horizontal (Reset, Putar, Suara, Screenshot) */
   .floating-hud {
     position: absolute;
     top: 56px;
-    left: 12px;
+    left: 50%;
     right: auto;
     bottom: auto;
-    padding: 3px 5px;
-    gap: 5px;
-    border-radius: 12px;
+    transform: translateX(-50%);
+    padding: 3px 6px;
+    gap: 6px;
+    border-radius: 14px;
     background: rgba(13, 18, 29, 0.88);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
@@ -1785,18 +1786,20 @@ html, body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     z-index: 35;
+    width: auto;
   }
 
   .hud-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
   }
 
   .hud-btn svg {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
   }
 
   .hud-tooltip {
@@ -1876,17 +1879,21 @@ html, body {
     height: 14px;
   }
 
-  /* Top Horizontal Component Navigation Bar (Mobile - 3x2 Grid: 100% visible, ZERO cut-off!) */
+  /* Top Horizontal Component Navigation Bar (Mobile - 3x2 Grid Centered in Middle of Screen) */
   .components-top-bar {
     position: absolute;
-    top: 98px;
-    left: 0;
-    right: 0;
-    width: 100%;
-    padding: 0 10px;
+    top: 104px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 360px;
+    padding: 0;
+    margin: 0 auto;
     z-index: 30;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .comp-chips-scroll {
@@ -1894,8 +1901,7 @@ html, body {
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
     width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
     overflow: visible;
   }
@@ -1917,6 +1923,8 @@ html, body {
     border-radius: 10px;
     width: 100%;
     box-sizing: border-box;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* Floating Standalone Component Navigator (Hidden on mobile because we have top chips!) */
