@@ -1442,20 +1442,28 @@ html, body {
 
   .nav-tabs {
     padding: 3px;
-    gap: 2px;
+    gap: 3px;
     border-radius: 10px;
   }
 
   .tab-btn {
-    padding: 6px 10px;
-    font-size: 0.76rem;
-    gap: 4px;
+    padding: 6px 8px;
+    font-size: 0.74rem;
+    gap: 5px;
     border-radius: 7px;
   }
 
+  .tab-btn:not(.active) span {
+    display: none;
+  }
+
+  .tab-btn.active {
+    padding: 6px 10px;
+  }
+
   .tab-icon {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
   }
 
   .top-actions {
