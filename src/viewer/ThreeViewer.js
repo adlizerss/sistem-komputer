@@ -177,6 +177,72 @@ export class ThreeViewer {
   }
 
   /**
+   * Process and tune model materials: Force 100% solid opaque outer casing, crystal-clear anisotropic textures & anti-glare PBR
+   */
+  processModelMaterials(model) {
+    if (!model) return;
+    const maxAniso = this.renderer ? this.renderer.capabilities.getMaxAnisotropy() : 4;
+
+    model.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+
+        if (child.material) {
+          // Force 100% solid opaque surface with zero transparency or see-through X-ray glitches
+          child.material.transparent = false;
+          child.material.opacity = 1.0;
+          child.material.depthWrite = true;
+          child.material.depthTest = true;
+          child.material.alphaTest = 0;
+          child.material.side = THREE.FrontSide; // Pure solid surface culling - only the outer chassis is visible!
+          child.material.blending = THREE.NormalBlending;
+
+          // Apply Anisotropic filtering for super sharp, crystal-clear labels & circuit details
+          const textures = [
+            child.material.map,
+            child.material.normalMap,
+            child.material.roughnessMap,
+            child.material.metalnessMap,
+            child.material.emissiveMap
+          ];
+
+          textures.forEach((tex) => {
+            if (tex) {
+              tex.colorSpace = THREE.SRGBColorSpace;
+              tex.generateMipmaps = true;
+              tex.minFilter = THREE.LinearMipmapLinearFilter;
+              tex.magFilter = THREE.LinearFilter;
+              tex.anisotropy = Math.min(maxAniso, 8);
+              tex.needsUpdate = true;
+            }
+          });
+
+          // Authentic dark cast aluminum / steel metal finish for HDD/PSU metal chassis
+          if (!child.material.map && (child.material.name.includes('Material.') || child.material.name.toLowerCase().includes('metal') || child.material.name.toLowerCase().includes('iron') || child.material.name.toLowerCase().includes('case') || child.material.name.toLowerCase().includes('steel') || child.material.name.includes('phong'))) {
+            child.material.metalness = 0.88;
+            child.material.roughness = 0.38;
+            child.material.color.setRGB(0.32, 0.35, 0.40); // Dark sleek metallic tone
+            child.material.envMapIntensity = 1.0;
+          } else if (child.material.map) {
+            child.material.envMapIntensity = 0.40;
+            if (child.material.color) {
+              child.material.color.setRGB(0.85, 0.85, 0.85); // Anti-glare on sticker labels
+            }
+          } else {
+            child.material.envMapIntensity = 0.6;
+          }
+
+          child.material.needsUpdate = true;
+          if (this.isWireframe) {
+            child.material.wireframe = true;
+          }
+        }
+      }
+    });
+  }
+
+  /**
    * Preload 3D models into memory cache
    */
   preloadModels(urls) {
@@ -185,6 +251,7 @@ export class ThreeViewer {
       this.gltfLoader.load(
         url,
         (gltf) => {
+          this.processModelMaterials(gltf.scene);
           this.modelCache.set(url, gltf.scene);
         },
         undefined,
@@ -199,7 +266,9 @@ export class ThreeViewer {
   async loadModel(url, customOffset = null, layoutMode = 'center') {
     // Instantaneous 0-second switching if already in memory
     if (this.modelCache.has(url)) {
-      this.displayLoadedModel(this.modelCache.get(url).clone(), customOffset, layoutMode);
+      const cached = this.modelCache.get(url).clone();
+      this.processModelMaterials(cached);
+      this.displayLoadedModel(cached, customOffset, layoutMode);
       return Promise.resolve(this.modelCache.get(url));
     }
 
@@ -210,63 +279,7 @@ export class ThreeViewer {
         url,
         (gltf) => {
           const model = gltf.scene;
-          const maxAniso = this.renderer ? this.renderer.capabilities.getMaxAnisotropy() : 4;
-
-          // Enable shadows, anisotropic crisp textures and apply anti-glare balanced PBR materials tuning
-          model.traverse((child) => {
-            if (child.isMesh) {
-              child.castShadow = true;
-              child.receiveShadow = true;
-              if (child.material) {
-                // Ensure outer casing and solid surfaces are completely opaque and solid (FrontSide)
-                child.material.depthWrite = true;
-                child.material.depthTest = true;
-                child.material.transparent = false;
-                child.material.opacity = 1.0;
-                child.material.side = THREE.FrontSide; // Standard solid backface culling - prevents seeing through into the interior!
-
-                // Apply Anisotropic filtering for super sharp, crystal-clear labels & circuit details
-                const textures = [
-                  child.material.map,
-                  child.material.normalMap,
-                  child.material.roughnessMap,
-                  child.material.metalnessMap,
-                  child.material.emissiveMap
-                ];
-
-                textures.forEach((tex) => {
-                  if (tex) {
-                    tex.colorSpace = THREE.SRGBColorSpace;
-                    tex.generateMipmaps = true;
-                    tex.minFilter = THREE.LinearMipmapLinearFilter;
-                    tex.magFilter = THREE.LinearFilter;
-                    tex.anisotropy = Math.min(maxAniso, 8);
-                    tex.needsUpdate = true;
-                  }
-                });
-
-                // Authentic dark cast aluminum / steel metal finish for HDD/PSU metal chassis
-                if (!child.material.map && (child.material.name.includes('Material.') || child.material.name.toLowerCase().includes('metal') || child.material.name.toLowerCase().includes('iron') || child.material.name.toLowerCase().includes('case') || child.material.name.toLowerCase().includes('steel'))) {
-                  child.material.metalness = 0.88;
-                  child.material.roughness = 0.38;
-                  child.material.color.setRGB(0.32, 0.35, 0.40); // Dark sleek metallic tone
-                  child.material.envMapIntensity = 1.0;
-                } else if (child.material.map) {
-                  child.material.envMapIntensity = 0.40;
-                  if (child.material.color) {
-                    child.material.color.setRGB(0.85, 0.85, 0.85); // Anti-glare on sticker labels
-                  }
-                } else {
-                  child.material.envMapIntensity = 0.6;
-                }
-
-                child.material.needsUpdate = true;
-                if (this.isWireframe) {
-                  child.material.wireframe = true;
-                }
-              }
-            }
-          });
+          this.processModelMaterials(model);
 
           // Cache raw model
           this.modelCache.set(url, model);
