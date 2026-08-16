@@ -45,6 +45,7 @@ class App {
       loadingProgressBar: document.getElementById('loading-progress-bar'),
       loadingPercentage: document.getElementById('loading-percentage'),
       gestureHint: document.getElementById('gesture-hint'),
+      canvasContainer: document.getElementById('canvas-container'),
 
       // Tabs & Home Overlay
       tabBeranda: document.getElementById('tab-beranda'),
@@ -247,6 +248,7 @@ class App {
     if (tabName === 'beranda') {
       // Non-interactive 3D background: auto-rotate smoothly, controls locked
       this.viewer.setInteractive(false);
+      if (this.elements.canvasContainer) this.elements.canvasContainer.style.pointerEvents = 'none';
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.remove('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.add('hidden');
@@ -263,6 +265,7 @@ class App {
     } else if (tabName === 'pembahasan') {
       // Interactive 3D mode enabled (free 360 rotation, zoom, pan)
       this.viewer.setInteractive(true);
+      if (this.elements.canvasContainer) this.elements.canvasContainer.style.pointerEvents = 'auto';
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.add('hidden');
       if (this.elements.panelPembahasan) {
@@ -280,6 +283,7 @@ class App {
     } else if (tabName === 'kuis') {
       // Interactive 3D mode enabled for inspection
       this.viewer.setInteractive(true);
+      if (this.elements.canvasContainer) this.elements.canvasContainer.style.pointerEvents = 'auto';
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.add('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.add('hidden');
@@ -452,17 +456,28 @@ class App {
 
     // Mobile Sheet Handle & Card Toggle (Collapse/Expand Info Panel on Mobile)
     if (this.elements.panelPembahasan) {
-      if (this.elements.btnToggleSheet) {
-        this.elements.btnToggleSheet.addEventListener('click', (e) => {
+      const toggleSheetAction = (e) => {
+        if (e) {
           e.stopPropagation();
-          this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
-        });
+          if (e.type === 'touchend') e.preventDefault();
+        }
+        this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
+      };
+
+      if (this.elements.btnToggleSheet) {
+        this.elements.btnToggleSheet.addEventListener('click', toggleSheetAction);
+        this.elements.btnToggleSheet.addEventListener('touchend', toggleSheetAction);
       }
-      this.elements.panelPembahasan.addEventListener('click', () => {
+
+      const expandIfCollapsed = (e) => {
         if (this.elements.panelPembahasan.classList.contains('sheet-collapsed')) {
+          if (e && e.type === 'touchend') e.preventDefault();
           this.elements.panelPembahasan.classList.remove('sheet-collapsed');
         }
-      });
+      };
+
+      this.elements.panelPembahasan.addEventListener('click', expandIfCollapsed);
+      this.elements.panelPembahasan.addEventListener('touchend', expandIfCollapsed);
     }
 
     // Component Navigation Buttons (Prev / Next)

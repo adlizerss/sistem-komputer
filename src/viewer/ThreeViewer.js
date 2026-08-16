@@ -353,43 +353,43 @@ export class ThreeViewer {
     this.currentLayoutMode = layoutMode;
     const isMobile = window.innerWidth <= 768;
 
-    let targetX = 0;
-    let targetY = 0;
+    let modelPosX = 0;
+    let modelPosY = 0;
     let camDistance = distance;
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: shift 3D PC model HIGH UP into upper viewport area
-        targetY = radius * 0.72;
-        camDistance = distance * 1.2;
+        // Mobile Home: Elevate 3D PC setup into the top 45% of the screen
+        modelPosY = radius * 0.82;
+        camDistance = distance * 1.35;
       } else {
-        // Desktop Home: shift 3D model to LEFT side and enlarge
-        targetX = radius * 0.45;
-        camDistance = distance * 0.68;
+        // Desktop Home: Shift 3D model to the left side
+        modelPosX = -radius * 0.35;
+        camDistance = distance * 0.75;
       }
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile, position 3D component model with generous margin & comfortable scale
-        targetY = -radius * 0.62;
-        camDistance = distance * 1.75;
+        // On mobile, position component model in upper viewport with moderate, non-intrusive size
+        modelPosY = radius * 0.78;
+        camDistance = distance * 1.95;
       } else {
-        // On desktop, right area is occupied by side card. Shift 3D model slightly left
-        targetX = radius * 0.28;
-        camDistance = distance * 0.95;
+        // On desktop, shift component model slightly left
+        modelPosX = -radius * 0.22;
+        camDistance = distance * 1.05;
       }
     }
 
-    // Position Model Pivot Group cleanly at targeted world location
-    pivot.position.set(targetX, targetY, 0);
-    this.controls.target.set(targetX, targetY, 0);
+    // Position Model Pivot Group cleanly in 3D world space
+    pivot.position.set(modelPosX, modelPosY, 0);
+    this.controls.target.set(modelPosX, modelPosY, 0);
     this.controls.minDistance = Math.max(radius * 0.1, 0.01);
     this.controls.maxDistance = Math.max(radius * 40.0, 50.0);
 
-    // Position camera directly so camera movement doesn't fight model scale
+    // Position camera looking directly at the model center
     this.camera.position.set(
-      targetX + camDistance * 0.75,
-      targetY + camDistance * 0.42,
+      modelPosX + camDistance * 0.75,
+      modelPosY + camDistance * 0.42,
       camDistance * 1.05
     );
     this.controls.update();
@@ -419,32 +419,32 @@ export class ThreeViewer {
     const distance = radius * 2.2;
 
     const isMobile = window.innerWidth <= 768;
-    let targetX = 0;
-    let targetY = 0;
+    let modelPosX = 0;
+    let modelPosY = 0;
     let camDistance = distance;
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
-        targetY = radius * 0.72;
-        camDistance = distance * 1.2;
+        modelPosY = radius * 0.82;
+        camDistance = distance * 1.35;
       } else {
-        targetX = radius * 0.45;
-        camDistance = distance * 0.68;
+        modelPosX = -radius * 0.35;
+        camDistance = distance * 0.75;
       }
     } else {
       if (isMobile) {
-        targetY = -radius * 0.62;
-        camDistance = distance * 1.75;
+        modelPosY = radius * 0.78;
+        camDistance = distance * 1.95;
       } else {
-        targetX = radius * 0.28;
-        camDistance = distance * 0.95;
+        modelPosX = -radius * 0.22;
+        camDistance = distance * 1.05;
       }
     }
 
-    this.currentModel.position.set(targetX, targetY, 0);
+    this.currentModel.position.set(modelPosX, modelPosY, 0);
     this.animateCameraTo(
-      new THREE.Vector3(targetX + camDistance * 0.75, targetY + camDistance * 0.42, camDistance * 1.05),
-      new THREE.Vector3(targetX, targetY, 0)
+      new THREE.Vector3(modelPosX + camDistance * 0.75, modelPosY + camDistance * 0.42, camDistance * 1.05),
+      new THREE.Vector3(modelPosX, modelPosY, 0)
     );
   }
 
@@ -533,6 +533,7 @@ export class ThreeViewer {
     let lastTap = 0;
 
     const handleFocus = (clientX, clientY) => {
+      if (!this.controls.enabled) return; // Do not focus when in locked home mode
       const rect = dom.getBoundingClientRect();
       this.mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
       this.mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
