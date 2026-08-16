@@ -395,14 +395,14 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Large, elevated much higher in upper half
+        // Mobile Home: Large, elevated significantly higher into top half
         pivotX = 0;
-        pivotY = radius * 1.55;
+        pivotY = radius * 2.35;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 3.4;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.22;
+        camY = targetLookY + camDist * 0.16;
         camZ = camDist * 1.10;
       } else {
         // Desktop Home: Large, elevated on left side of screen
@@ -484,12 +484,12 @@ export class ThreeViewer {
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 1.55;
+        pivotY = radius * 2.35;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 3.4;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.22;
+        camY = targetLookY + camDist * 0.16;
         camZ = camDist * 1.10;
       } else {
         pivotX = -radius * 0.52;
