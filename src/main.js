@@ -57,6 +57,7 @@ class App {
 
       // Floating Panels & Gallery
       panelPembahasan: document.getElementById('panel-pembahasan'),
+      btnToggleSheet: document.getElementById('btn-toggle-sheet'),
       panelKuis: document.getElementById('panel-kuis'),
       bottomGallery: document.getElementById('bottom-gallery'),
       componentsCarousel: document.getElementById('components-carousel'),
@@ -195,9 +196,9 @@ class App {
       .map(s => `<div class="spec-chip"><strong>${s.label}:</strong> ${s.value}</div>`)
       .join('');
 
-    // Load 3D Model into Viewport
+    // Load 3D Model into Viewport with pembahasan layout mode
     this.elements.loadingTitle.textContent = `Memuat ${comp.name}...`;
-    this.viewer.loadModel(comp.modelFile, comp.cameraOffset);
+    this.viewer.loadModel(comp.modelFile, comp.cameraOffset, 'pembahasan');
   }
 
   switchTab(tabName) {
@@ -299,11 +300,11 @@ class App {
     // Hide Feedback Box
     this.elements.quizFeedbackBox.classList.add('hidden');
 
-    // Load corresponding 3D Model into Viewport for students to inspect!
+    // Load corresponding 3D Model into Viewport with kuis layout mode
     const targetComp = COMPONENTS_DATA.find(c => c.id === q.targetModelId);
     if (targetComp) {
       this.elements.loadingTitle.textContent = `Menyiapkan Objek 3D Soal ${index + 1}...`;
-      this.viewer.loadModel(targetComp.modelFile, targetComp.cameraOffset);
+      this.viewer.loadModel(targetComp.modelFile, targetComp.cameraOffset, 'kuis');
     }
   }
 
@@ -419,6 +420,13 @@ class App {
     }
     this.elements.tabPembahasan.addEventListener('click', () => this.switchTab('pembahasan'));
     this.elements.tabKuis.addEventListener('click', () => this.switchTab('kuis'));
+
+    // Mobile Sheet Handle Toggle (Collapse/Expand Info Panel on Mobile)
+    if (this.elements.btnToggleSheet && this.elements.panelPembahasan) {
+      this.elements.btnToggleSheet.addEventListener('click', () => {
+        this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
+      });
+    }
 
     // Home Center Hero Buttons
     if (this.elements.btnHomePembahasan) {

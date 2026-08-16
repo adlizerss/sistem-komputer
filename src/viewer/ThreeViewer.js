@@ -351,21 +351,33 @@ export class ThreeViewer {
     const radius = Math.max(sphere.radius, 0.1);
     const distance = radius * 2.3;
 
-    // Check if Home layout mode: shift 3D model to left on Desktop, top on Mobile
+    this.currentLayoutMode = layoutMode;
+    const isMobile = window.innerWidth <= 768;
+
     let targetX = 0;
     let targetY = 0;
     let camDistance = distance;
 
     if (layoutMode === 'home') {
-      const isMobile = window.innerWidth <= 768;
       if (isMobile) {
-        // Mobile: shift 3D model to TOP half
-        targetY = -radius * 0.45;
-        camDistance = distance * 1.15;
+        // Mobile Home: shift 3D PC model UP so it is centered in top 55%
+        targetY = -radius * 0.48;
+        camDistance = distance * 1.12;
       } else {
-        // Desktop: shift 3D model to LEFT side and enlarge size
+        // Desktop Home: shift 3D model to LEFT side and enlarge
         targetX = radius * 0.45;
-        camDistance = distance * 0.68; // Closer camera makes PC set ~35% bigger on desktop
+        camDistance = distance * 0.68;
+      }
+    } else {
+      // Pembahasan or Quiz Mode
+      if (isMobile) {
+        // On mobile, bottom area is occupied by info/quiz card. Shift 3D model up so it is fully visible in top 55%
+        targetY = -radius * 0.42;
+        camDistance = distance * 1.05;
+      } else {
+        // On desktop, right area is occupied by side card. Shift 3D model slightly left
+        targetX = radius * 0.28;
+        camDistance = distance * 0.95;
       }
     }
 
@@ -405,9 +417,32 @@ export class ThreeViewer {
     const radius = Math.max(sphere.radius, 0.05);
     const distance = radius * 2.2;
 
+    const isMobile = window.innerWidth <= 768;
+    let targetX = 0;
+    let targetY = 0;
+    let camDistance = distance;
+
+    if (this.currentLayoutMode === 'home') {
+      if (isMobile) {
+        targetY = -radius * 0.48;
+        camDistance = distance * 1.12;
+      } else {
+        targetX = radius * 0.45;
+        camDistance = distance * 0.68;
+      }
+    } else {
+      if (isMobile) {
+        targetY = -radius * 0.42;
+        camDistance = distance * 1.05;
+      } else {
+        targetX = radius * 0.28;
+        camDistance = distance * 0.95;
+      }
+    }
+
     this.animateCameraTo(
-      new THREE.Vector3(distance * 0.75, distance * 0.55, distance * 1.05),
-      new THREE.Vector3(0, 0, 0)
+      new THREE.Vector3(targetX + camDistance * 0.75, targetY + camDistance * 0.42, camDistance * 1.05),
+      new THREE.Vector3(targetX, targetY, 0)
     );
   }
 
