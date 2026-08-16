@@ -418,14 +418,14 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode (Centered 3D Models)
       if (isMobile) {
-        // Mobile Pembahasan: Perfectly centered in safe area between chips and sheet
+        // Mobile Pembahasan: Optical camera offset pushing 3D component high up in the screen
         pivotX = 0;
-        pivotY = radius * 0.40;
+        pivotY = 0;
         targetLookX = 0;
-        targetLookY = pivotY;
-        const camDist = radius * 5.6;
-        camX = camDist * 0.40;
-        camY = targetLookY + camDist * 0.48;
+        targetLookY = -radius * 0.95;
+        const camDist = radius * 5.2;
+        camX = camDist * 0.38;
+        camY = targetLookY + camDist * 0.50;
         camZ = camDist * 0.95;
       } else {
         // Desktop Pembahasan: Centered
@@ -504,12 +504,12 @@ export class ThreeViewer {
     } else {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 0.40;
+        pivotY = 0;
         targetLookX = 0;
-        targetLookY = pivotY;
-        const camDist = radius * 5.6;
-        camX = camDist * 0.40;
-        camY = targetLookY + camDist * 0.48;
+        targetLookY = -radius * 0.95;
+        const camDist = radius * 5.2;
+        camX = camDist * 0.38;
+        camY = targetLookY + camDist * 0.50;
         camZ = camDist * 0.95;
       } else {
         pivotX = 0;
