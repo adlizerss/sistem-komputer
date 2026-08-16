@@ -130,13 +130,12 @@ html, body {
 
 .brand-title {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.05em;
   color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  line-height: 1.1;
+  display: block;
 }
 
 .badge-3d {

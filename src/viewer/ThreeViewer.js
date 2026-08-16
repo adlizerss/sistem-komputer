@@ -395,14 +395,14 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Elevate 3D Set PC high into top half of screen by aiming camera target below the model
+        // Mobile Home: Perfectly balanced framing in upper-middle area
         pivotX = 0;
         pivotY = 0;
         targetLookX = 0;
-        targetLookY = -radius * 0.95;
-        const camDist = radius * 3.3;
+        targetLookY = -radius * 0.55;
+        const camDist = radius * 3.35;
         camX = camDist * 0.35;
-        camY = -radius * 0.30;
+        camY = -radius * 0.10;
         camZ = camDist * 1.05;
       } else {
         // Desktop Home: Large, elevated on left side of screen
@@ -486,10 +486,10 @@ export class ThreeViewer {
         pivotX = 0;
         pivotY = 0;
         targetLookX = 0;
-        targetLookY = -radius * 0.95;
-        const camDist = radius * 3.3;
+        targetLookY = -radius * 0.55;
+        const camDist = radius * 3.35;
         camX = camDist * 0.35;
-        camY = -radius * 0.30;
+        camY = -radius * 0.10;
         camZ = camDist * 1.05;
       } else {
         pivotX = -radius * 0.52;
