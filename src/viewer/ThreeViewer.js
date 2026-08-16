@@ -363,9 +363,9 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Lowered slightly into a comfortable upper-middle position
+        // Mobile Home: Set distance * 2.45 so the entire PC desk & monitor fits comfortably in the upper-middle screen
         targetLookY = -radius * 0.45;
-        camDistance = distance * 1.25;
+        camDistance = distance * 2.45;
         targetCamX = targetLookX + camDistance * 0.75;
         targetCamY = targetLookY + camDistance * 0.42;
         targetCamZ = camDistance * 1.05;
@@ -380,9 +380,9 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile: Position model in safe center area, noticeably smaller and compact, with elevated 3/4 isometric view
+        // On mobile: Position model in safe center area, compact scale, with elevated 3/4 isometric view
         targetLookY = -radius * 0.25;
-        camDistance = distance * 3.4;
+        camDistance = distance * 3.6;
         targetCamX = targetLookX + camDistance * 0.60;
         targetCamY = targetLookY + camDistance * 0.80; // Angled from above to clearly show component surface details
         targetCamZ = camDistance * 1.05;
@@ -439,7 +439,7 @@ export class ThreeViewer {
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
         targetLookY = -radius * 0.45;
-        camDistance = distance * 1.25;
+        camDistance = distance * 2.45;
         targetCamX = targetLookX + camDistance * 0.75;
         targetCamY = targetLookY + camDistance * 0.42;
         targetCamZ = camDistance * 1.05;
@@ -453,7 +453,7 @@ export class ThreeViewer {
     } else {
       if (isMobile) {
         targetLookY = -radius * 0.25;
-        camDistance = distance * 3.4;
+        camDistance = distance * 3.6;
         targetCamX = targetLookX + camDistance * 0.60;
         targetCamY = targetLookY + camDistance * 0.80;
         targetCamZ = camDistance * 1.05;
