@@ -1771,10 +1771,13 @@ html, body {
   .floating-hud {
     position: absolute;
     top: 56px;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: -moz-fit-content;
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    transform: none;
     padding: 3px 6px;
     gap: 6px;
     border-radius: 14px;
@@ -1788,13 +1791,13 @@ html, body {
     align-items: center;
     justify-content: center;
     z-index: 35;
-    width: auto;
   }
 
   .hud-btn {
     width: 36px;
     height: 36px;
     border-radius: 9px;
+    flex-shrink: 0;
   }
 
   .hud-btn svg {
@@ -1883,13 +1886,13 @@ html, body {
   .components-top-bar {
     position: absolute;
     top: 104px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     width: calc(100% - 24px);
     max-width: 360px;
+    transform: none;
     padding: 0;
-    margin: 0 auto;
     z-index: 30;
     display: flex;
     justify-content: center;
