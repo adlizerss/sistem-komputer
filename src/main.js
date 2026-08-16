@@ -247,7 +247,9 @@ class App {
       .join('');
 
     // Load 3D Model into Viewport with pembahasan layout mode
-    this.elements.loadingTitle.textContent = `Memuat ${comp.name}...`;
+    if (this.elements.loadingTitle) {
+      this.elements.loadingTitle.textContent = `Memuat ${comp.name}...`;
+    }
     this.viewer.loadModel(comp.modelFile, comp.cameraOffset, 'pembahasan');
   }
 
@@ -287,7 +289,9 @@ class App {
       if (this.elements.gestureHint) this.elements.gestureHint.classList.add('hidden');
 
       // Load 1 Set Gaming PC Desktop & Monitor with home offset framing
-      this.elements.loadingTitle.textContent = "Menyiapkan Setup PC Desktop & Monitor...";
+      if (this.elements.loadingTitle) {
+        this.elements.loadingTitle.textContent = "Menyiapkan Setup PC Desktop & Monitor...";
+      }
       this.viewer.loadModel('/3d/gaming_desktop_pc.glb', { x: 0, y: 0.4, z: 1.1 }, 'home');
 
     } else if (tabName === 'pembahasan') {
