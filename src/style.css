@@ -1767,10 +1767,10 @@ html, body {
     height: 17px;
   }
 
-  /* Floating HUD Controls - Sleek Centered Horizontal with Generous Clearance */
+  /* Floating HUD Controls - Sleek Centered Horizontal with Wide Header Distance */
   .floating-hud {
     position: absolute;
-    top: 86px;
+    top: 114px;
     bottom: auto !important;
     left: 0;
     right: 0;
@@ -1885,10 +1885,10 @@ html, body {
     height: 14px;
   }
 
-  /* Top Horizontal Component Navigation Bar (Mobile - 3x2 Grid Centered with Generous Top Spacing) */
+  /* Top Horizontal Component Navigation Bar (Mobile - 3x2 Grid Centered with Wide Top Spacing) */
   .components-top-bar {
     position: absolute;
-    top: 144px;
+    top: 172px;
     left: 0;
     right: 0;
     margin: 0 auto;
