@@ -395,14 +395,14 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Large, elevated high in upper half
+        // Mobile Home: Large, elevated much higher in upper half
         pivotX = 0;
-        pivotY = radius * 1.05;
+        pivotY = radius * 1.55;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 3.4;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.25;
+        camY = targetLookY + camDist * 0.22;
         camZ = camDist * 1.10;
       } else {
         // Desktop Home: Large, elevated on left side of screen
@@ -416,11 +416,11 @@ export class ThreeViewer {
         camZ = camDist * 1.15;
       }
     } else {
-      // Pembahasan or Quiz Mode
+      // Pembahasan or Quiz Mode (Centered 3D Models)
       if (isMobile) {
-        // Mobile Pembahasan: Slightly higher position in center safe area
+        // Mobile Pembahasan: Centered in upper-middle safe area
         pivotX = 0;
-        pivotY = radius * 0.25;
+        pivotY = radius * 0.32;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 5.6;
@@ -428,13 +428,13 @@ export class ThreeViewer {
         camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       } else {
-        // Desktop Pembahasan: Slightly higher position on left side
-        pivotX = -radius * 0.45;
+        // Desktop Pembahasan: Centered
+        pivotX = 0;
         pivotY = radius * 0.15;
-        targetLookX = pivotX;
+        targetLookX = 0;
         targetLookY = pivotY;
-        const camDist = radius * 3.5;
-        camX = targetLookX + camDist * 0.45;
+        const camDist = radius * 3.6;
+        camX = camDist * 0.45;
         camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       }
@@ -484,12 +484,12 @@ export class ThreeViewer {
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 1.05;
+        pivotY = radius * 1.55;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 3.4;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.25;
+        camY = targetLookY + camDist * 0.22;
         camZ = camDist * 1.10;
       } else {
         pivotX = -radius * 0.52;
@@ -504,7 +504,7 @@ export class ThreeViewer {
     } else {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 0.25;
+        pivotY = radius * 0.32;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 5.6;
@@ -512,12 +512,12 @@ export class ThreeViewer {
         camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       } else {
-        pivotX = -radius * 0.45;
+        pivotX = 0;
         pivotY = radius * 0.15;
-        targetLookX = pivotX;
+        targetLookX = 0;
         targetLookY = pivotY;
-        const camDist = radius * 3.5;
-        camX = targetLookX + camDist * 0.45;
+        const camDist = radius * 3.6;
+        camX = camDist * 0.45;
         camY = targetLookY + camDist * 0.55;
         camZ = camDist * 0.95;
       }
