@@ -6,10 +6,10 @@
   <title>Sistem Komputer 3D - Media Interaktif Pengenalan Komponen Komputer</title>
   <meta name="description" content="Aplikasi web interaktif 3D untuk belajar komponen hardware komputer inti, alur booting, dan kuis visual tebak 3D.">
   
-  <!-- Google Fonts: Outfit & Inter -->
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
   
   <!-- Main CSS -->
   <link rel="stylesheet" href="/src/style.css">
@@ -256,6 +256,27 @@
       <aside id="panel-pembahasan" class="side-floating-card view-section hidden">
         <div id="btn-toggle-sheet" class="sheet-handle-bar" title="Ketuk untuk sembunyikan/tampilkan detail">
           <span class="sheet-handle-pill"></span>
+        </div>
+
+        <!-- Component Quick Switcher Bar (Prev / Next & Step Indicator) -->
+        <div class="comp-nav-bar">
+          <button id="btn-comp-prev" class="comp-nav-btn" title="Komponen Sebelumnya (Panah Kiri)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="nav-arrow-icon">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span class="btn-nav-label">Sebelumnya</span>
+          </button>
+          
+          <div id="comp-step-indicator" class="comp-step-pill" title="Urutan Komponen">
+            <span class="step-num">1 / 8</span>
+          </div>
+
+          <button id="btn-comp-next" class="comp-nav-btn" title="Komponen Berikutnya (Panah Kanan)">
+            <span class="btn-nav-label">Berikutnya</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="nav-arrow-icon">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
         </div>
 
         <div class="card-header">

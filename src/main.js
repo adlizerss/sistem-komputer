@@ -58,6 +58,9 @@ class App {
       // Floating Panels & Gallery
       panelPembahasan: document.getElementById('panel-pembahasan'),
       btnToggleSheet: document.getElementById('btn-toggle-sheet'),
+      btnCompPrev: document.getElementById('btn-comp-prev'),
+      btnCompNext: document.getElementById('btn-comp-next'),
+      compStepIndicator: document.getElementById('comp-step-indicator'),
       panelKuis: document.getElementById('panel-kuis'),
       bottomGallery: document.getElementById('bottom-gallery'),
       componentsCarousel: document.getElementById('components-carousel'),
@@ -166,6 +169,18 @@ class App {
     });
   }
 
+  prevComponent() {
+    const total = COMPONENTS_DATA.length;
+    const newIndex = (this.selectedComponentIndex - 1 + total) % total;
+    this.selectComponent(newIndex);
+  }
+
+  nextComponent() {
+    const total = COMPONENTS_DATA.length;
+    const newIndex = (this.selectedComponentIndex + 1) % total;
+    this.selectComponent(newIndex);
+  }
+
   selectComponent(index) {
     this.selectedComponentIndex = index;
     const comp = COMPONENTS_DATA[index];
@@ -176,6 +191,13 @@ class App {
     buttons.forEach((btn, idx) => {
       btn.classList.toggle('active', idx === index);
     });
+
+    // Update Component Step Indicator
+    if (this.elements.compStepIndicator) {
+      this.elements.compStepIndicator.innerHTML = `
+        <span class="step-num">${index + 1} / ${COMPONENTS_DATA.length}</span>
+      `;
+    }
 
     // Update Info Card with concise facts
     this.elements.compIcon.textContent = comp.icon;
@@ -427,6 +449,25 @@ class App {
         this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
       });
     }
+
+    // Component Navigation Buttons (Prev / Next)
+    if (this.elements.btnCompPrev) {
+      this.elements.btnCompPrev.addEventListener('click', () => this.prevComponent());
+    }
+    if (this.elements.btnCompNext) {
+      this.elements.btnCompNext.addEventListener('click', () => this.nextComponent());
+    }
+
+    // Keyboard Arrow Navigation for Components
+    window.addEventListener('keydown', (e) => {
+      if (this.activeTab === 'pembahasan') {
+        if (e.key === 'ArrowLeft') {
+          this.prevComponent();
+        } else if (e.key === 'ArrowRight') {
+          this.nextComponent();
+        }
+      }
+    });
 
     // Home Center Hero Buttons
     if (this.elements.btnHomePembahasan) {

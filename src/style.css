@@ -27,9 +27,9 @@
   --text-muted: #94a3b8;
   --text-dim: #64748b;
 
-  /* Typography */
-  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography: Plus Jakarta Sans (Modern, friendly & readable) & Outfit */
+  --font-heading: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Shadows & Glass */
   --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
@@ -704,6 +704,66 @@ html, body {
   transform: translateX(4px);
 }
 
+
+/* Component Quick Navigation Bar (Desktop & Mobile) */
+.comp-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-glass);
+  padding: 5px 8px;
+  border-radius: 14px;
+  margin-bottom: 4px;
+}
+
+.comp-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  color: var(--text-main);
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  user-select: none;
+}
+
+.comp-nav-btn:hover {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(99, 102, 241, 0.25));
+  border-color: var(--primary-cyan);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--primary-cyan-glow);
+}
+
+.comp-nav-btn:active {
+  transform: scale(0.96);
+}
+
+.nav-arrow-icon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.comp-step-pill {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--primary-cyan);
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  padding: 4px 12px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+}
 
 /* Card Header */
 .card-header {
@@ -1525,19 +1585,22 @@ html, body {
     gap: 5px;
   }
 
-  /* Home Menu Hero - Clean Bottom Dock */
+  /* Home Menu Hero - Clean Bottom Dock with Safe Elevation */
   .home-center-overlay {
     justify-content: center;
     align-items: flex-end;
-    padding: 0 12px 16px;
+    padding: 0 14px 28px;
+    padding-bottom: max(28px, calc(16px + env(safe-area-inset-bottom)));
   }
 
   .home-menu-box {
-    padding: 16px 14px 16px;
-    border-radius: 20px;
-    max-width: 390px;
+    padding: 14px 14px 16px;
+    border-radius: 22px;
+    max-width: 370px;
     width: 100%;
     gap: 0;
+    margin-bottom: 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(6, 182, 212, 0.12);
   }
 
   .home-logo-badge {
@@ -1545,8 +1608,8 @@ html, body {
   }
 
   .logo-icon-box.large {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 10px;
   }
 
@@ -1556,48 +1619,68 @@ html, body {
   }
 
   .home-main-title {
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     margin-top: 2px;
   }
 
   .home-main-subtitle {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     margin-top: 2px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .home-buttons-stack {
-    gap: 8px;
+    gap: 7px;
   }
 
   .btn-menu-hero {
-    padding: 9px 12px;
+    padding: 8px 12px;
     border-radius: 12px;
     gap: 10px;
   }
 
   .btn-menu-icon {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
   }
 
   .btn-menu-icon svg {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
   }
 
   .btn-menu-text .btn-title {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
 
   .btn-menu-text .btn-desc {
-    font-size: 0.67rem;
+    font-size: 0.65rem;
   }
 
   .btn-chevron {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Comp Nav Bar in Mobile Sheet */
+  .comp-nav-bar {
+    padding: 3px 6px;
+    margin-bottom: 2px;
+    gap: 6px;
+    border-radius: 10px;
+  }
+
+  .comp-nav-btn {
+    padding: 5px 9px;
+    font-size: 0.72rem;
+    gap: 4px;
+    border-radius: 8px;
+  }
+
+  .comp-step-pill {
+    padding: 3px 10px;
+    font-size: 0.72rem;
   }
 
   /* Side Floating Cards (Bottom Sheet for Mobile) */
@@ -1609,9 +1692,9 @@ html, body {
     right: 12px;
     width: auto;
     max-height: 42vh;
-    padding: 10px 14px 14px;
+    padding: 8px 14px 14px;
     border-radius: 20px;
-    gap: 10px;
+    gap: 8px;
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.7);
     transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }

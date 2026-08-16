@@ -371,9 +371,9 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile, bottom area is occupied by info/quiz card. Shift 3D model up so it is fully visible in top 55%
-        targetY = -radius * 0.42;
-        camDistance = distance * 1.05;
+        // On mobile, position 3D model smaller with generous breathing room in upper viewport
+        targetY = -radius * 0.46;
+        camDistance = distance * 1.38;
       } else {
         // On desktop, right area is occupied by side card. Shift 3D model slightly left
         targetX = radius * 0.28;
@@ -432,8 +432,8 @@ export class ThreeViewer {
       }
     } else {
       if (isMobile) {
-        targetY = -radius * 0.42;
-        camDistance = distance * 1.05;
+        targetY = -radius * 0.46;
+        camDistance = distance * 1.38;
       } else {
         targetX = radius * 0.28;
         camDistance = distance * 0.95;
