@@ -395,25 +395,25 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Perfectly balanced framing in upper-middle area
+        // Mobile Home: Elevated top-down bird's eye angle showcasing desk surface and setup
         pivotX = 0;
         pivotY = 0;
         targetLookX = 0;
-        targetLookY = -radius * 0.55;
-        const camDist = radius * 3.35;
-        camX = camDist * 0.35;
-        camY = -radius * 0.10;
-        camZ = camDist * 1.05;
+        targetLookY = -radius * 0.50;
+        const camDist = radius * 3.25;
+        camX = camDist * 0.38;
+        camY = radius * 1.35;
+        camZ = camDist * 0.95;
       } else {
-        // Desktop Home: Large, elevated on left side of screen
+        // Desktop Home: Elevated angled perspective showcasing desk surface
         pivotX = -radius * 0.52;
         pivotY = radius * 0.16;
         targetLookX = pivotX;
         targetLookY = pivotY;
         const camDist = radius * 2.15;
         camX = targetLookX + camDist * 0.40;
-        camY = targetLookY + camDist * 0.35;
-        camZ = camDist * 1.15;
+        camY = targetLookY + camDist * 0.65;
+        camZ = camDist * 1.05;
       }
     } else {
       // Pembahasan or Quiz Mode (Centered 3D Models)
@@ -486,11 +486,11 @@ export class ThreeViewer {
         pivotX = 0;
         pivotY = 0;
         targetLookX = 0;
-        targetLookY = -radius * 0.55;
-        const camDist = radius * 3.35;
-        camX = camDist * 0.35;
-        camY = -radius * 0.10;
-        camZ = camDist * 1.05;
+        targetLookY = -radius * 0.50;
+        const camDist = radius * 3.25;
+        camX = camDist * 0.38;
+        camY = radius * 1.35;
+        camZ = camDist * 0.95;
       } else {
         pivotX = -radius * 0.52;
         pivotY = radius * 0.16;
@@ -498,8 +498,8 @@ export class ThreeViewer {
         targetLookY = pivotY;
         const camDist = radius * 2.15;
         camX = targetLookX + camDist * 0.40;
-        camY = targetLookY + camDist * 0.35;
-        camZ = camDist * 1.15;
+        camY = targetLookY + camDist * 0.65;
+        camZ = camDist * 1.05;
       }
     } else {
       if (isMobile) {
