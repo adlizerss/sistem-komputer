@@ -97,16 +97,16 @@
         <!-- 3D WebGL Canvas will be injected here -->
       </div>
 
-      <!-- Loading Overlay -->
+      <!-- Loading Overlay (Minimalist Futuristic 3D Hologram Loader without text) -->
       <div id="loading-overlay" class="loading-overlay">
-        <div class="loading-card">
-          <div class="spinner-ring"></div>
-          <div class="loading-info">
-            <h3 id="loading-title">Memuat Model 3D...</h3>
-            <div class="progress-bar-track">
-              <div id="loading-progress-bar" class="progress-bar-fill" style="width: 0%;"></div>
-            </div>
-            <span id="loading-percentage" class="loading-percent">0%</span>
+        <div class="minimal-loader">
+          <div class="loader-hologram">
+            <div class="holo-core"></div>
+            <div class="holo-ring ring-1"></div>
+            <div class="holo-ring ring-2"></div>
+          </div>
+          <div class="progress-bar-track compact">
+            <div id="loading-progress-bar" class="progress-bar-fill" style="width: 0%;"></div>
           </div>
         </div>
       </div>
@@ -320,15 +320,6 @@
       <!-- VIEW 1: PEMBAHASAN INFO CARD (Right Floating Panel) -->
       <!-- ============================================== -->
       <aside id="panel-pembahasan" class="side-floating-card view-section hidden">
-        <div id="btn-toggle-sheet" class="sheet-handle-bar" title="Sembunyikan Papan Penjelasan" aria-label="Sembunyikan Papan Penjelasan">
-          <span class="sheet-handle-pill"></span>
-          <span class="sheet-minimize-chevron">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </div>
-
         <div class="card-header">
           <div class="component-title-row">
             <span id="comp-icon" class="comp-emoji">🧠</span>
@@ -337,9 +328,16 @@
               <span id="comp-subtitle" class="comp-sub">AMD AM4 Socket</span>
             </div>
           </div>
-          <div id="comp-boot-badge" class="boot-badge critical">
-            <span class="pulse-dot"></span>
-            <span id="comp-boot-text">WAJIB POST (Kritis)</span>
+          <div class="card-header-actions">
+            <div id="comp-boot-badge" class="boot-badge critical">
+              <span class="pulse-dot"></span>
+              <span id="comp-boot-text">WAJIB POST (Kritis)</span>
+            </div>
+            <button id="btn-toggle-sheet" class="btn-card-collapse" title="Sembunyikan Papan Penjelasan" aria-label="Sembunyikan Papan Penjelasan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
           </div>
         </div>
 

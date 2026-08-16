@@ -145,14 +145,22 @@ class App {
 
     if (progress < 100) {
       this.elements.loadingOverlay.classList.remove('hidden');
-      this.elements.loadingProgressBar.style.width = `${progress}%`;
-      this.elements.loadingPercentage.textContent = `${progress}%`;
+      if (this.elements.loadingProgressBar) {
+        this.elements.loadingProgressBar.style.width = `${progress}%`;
+      }
+      if (this.elements.loadingPercentage) {
+        this.elements.loadingPercentage.textContent = `${progress}%`;
+      }
     } else {
-      this.elements.loadingProgressBar.style.width = '100%';
-      this.elements.loadingPercentage.textContent = '100%';
+      if (this.elements.loadingProgressBar) {
+        this.elements.loadingProgressBar.style.width = '100%';
+      }
+      if (this.elements.loadingPercentage) {
+        this.elements.loadingPercentage.textContent = '100%';
+      }
       setTimeout(() => {
         this.elements.loadingOverlay.classList.add('hidden');
-      }, 250);
+      }, 200);
     }
   }
 
