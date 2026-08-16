@@ -1785,8 +1785,8 @@ html, body {
   .home-center-overlay {
     justify-content: center;
     align-items: flex-end;
-    padding: 0 14px 115px;
-    padding-bottom: max(115px, calc(80px + env(safe-area-inset-bottom)));
+    padding: 0 14px 155px;
+    padding-bottom: max(155px, calc(115px + env(safe-area-inset-bottom)));
     height: 100%;
     max-height: 100%;
     overflow: hidden;
@@ -1798,7 +1798,7 @@ html, body {
     max-width: 345px;
     width: 100%;
     gap: 0;
-    margin-bottom: 24px;
+    margin-bottom: 42px;
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(6, 182, 212, 0.18);
   }
 

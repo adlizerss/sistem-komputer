@@ -310,8 +310,22 @@ export class ThreeViewer {
     model.scale.set(1, 1, 1);
     model.updateMatrixWorld(true);
 
-    // Calculate exact Bounding Box in world space
-    let box = new THREE.Box3().setFromObject(model);
+    // Calculate exact Bounding Box of only visible geometry in world space
+    let box = new THREE.Box3();
+    let hasGeometry = false;
+    model.traverse((child) => {
+      if (child.isMesh && child.geometry) {
+        if (!child.geometry.boundingBox) child.geometry.computeBoundingBox();
+        const meshBox = child.geometry.boundingBox.clone().applyMatrix4(child.matrixWorld);
+        box.union(meshBox);
+        hasGeometry = true;
+      }
+    });
+
+    if (!hasGeometry || box.isEmpty()) {
+      box.setFromObject(model);
+    }
+
     let sphere = box.getBoundingSphere(new THREE.Sphere());
 
     // Auto-normalize scale for tiny objects (like CPU & M.2 NVMe SSD) so they appear clean, compact & proportional
@@ -322,7 +336,15 @@ export class ThreeViewer {
       model.updateMatrixWorld(true);
 
       // Recalculate box & sphere after scaling
-      box = new THREE.Box3().setFromObject(model);
+      box = new THREE.Box3();
+      model.traverse((child) => {
+        if (child.isMesh && child.geometry) {
+          if (!child.geometry.boundingBox) child.geometry.computeBoundingBox();
+          const meshBox = child.geometry.boundingBox.clone().applyMatrix4(child.matrixWorld);
+          box.union(meshBox);
+        }
+      });
+      if (box.isEmpty()) box.setFromObject(model);
       sphere = box.getBoundingSphere(new THREE.Sphere());
     }
 
@@ -332,7 +354,7 @@ export class ThreeViewer {
     const pivot = new THREE.Group();
     pivot.name = "ModelPivot";
 
-    // Place model inside pivot shifted by -center so geometric center is precisely at (0, 0, 0) of the pivot
+    // Place model inside pivot shifted by -center so true geometric center is precisely at (0, 0, 0) of the pivot
     model.position.set(-center.x, -center.y, -center.z);
     pivot.add(model);
 
@@ -362,14 +384,14 @@ export class ThreeViewer {
 
     if (layoutMode === 'home') {
       if (isMobile) {
-        // Mobile Home: Large, elevated in upper half
+        // Mobile Home: Large, elevated high in upper half
         pivotX = 0;
-        pivotY = radius * 0.72;
+        pivotY = radius * 1.05;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 3.4;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.28;
+        camY = targetLookY + camDist * 0.25;
         camZ = camDist * 1.10;
       } else {
         // Desktop Home: Large, elevated on left side of screen
@@ -451,12 +473,12 @@ export class ThreeViewer {
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 0.72;
+        pivotY = radius * 1.05;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 3.4;
         camX = camDist * 0.35;
-        camY = targetLookY + camDist * 0.28;
+        camY = targetLookY + camDist * 0.25;
         camZ = camDist * 1.10;
       } else {
         pivotX = -radius * 0.52;
