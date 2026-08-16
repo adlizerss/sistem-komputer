@@ -420,12 +420,12 @@ export class ThreeViewer {
       if (isMobile) {
         // Mobile Pembahasan: Perfectly centered in safe area between chips and sheet
         pivotX = 0;
-        pivotY = radius * 0.12;
+        pivotY = radius * 0.40;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 5.6;
         camX = camDist * 0.40;
-        camY = targetLookY + camDist * 0.55;
+        camY = targetLookY + camDist * 0.48;
         camZ = camDist * 0.95;
       } else {
         // Desktop Pembahasan: Centered
@@ -504,12 +504,12 @@ export class ThreeViewer {
     } else {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 0.12;
+        pivotY = radius * 0.40;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 5.6;
         camX = camDist * 0.40;
-        camY = targetLookY + camDist * 0.55;
+        camY = targetLookY + camDist * 0.48;
         camZ = camDist * 0.95;
       } else {
         pivotX = 0;
