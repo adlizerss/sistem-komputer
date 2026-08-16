@@ -418,9 +418,9 @@ export class ThreeViewer {
     } else {
       // Pembahasan or Quiz Mode (Centered 3D Models)
       if (isMobile) {
-        // Mobile Pembahasan: Centered in upper-middle safe area
+        // Mobile Pembahasan: Perfectly centered in safe area between chips and sheet
         pivotX = 0;
-        pivotY = radius * 0.32;
+        pivotY = radius * 0.15;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 5.6;
@@ -504,7 +504,7 @@ export class ThreeViewer {
     } else {
       if (isMobile) {
         pivotX = 0;
-        pivotY = radius * 0.32;
+        pivotY = radius * 0.15;
         targetLookX = 0;
         targetLookY = pivotY;
         const camDist = radius * 5.6;
