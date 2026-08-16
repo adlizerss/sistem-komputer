@@ -1601,8 +1601,8 @@ html, body {
   .home-center-overlay {
     justify-content: center;
     align-items: flex-end;
-    padding: 0 14px 64px;
-    padding-bottom: max(64px, calc(38px + env(safe-area-inset-bottom)));
+    padding: 0 14px 88px;
+    padding-bottom: max(88px, calc(60px + env(safe-area-inset-bottom)));
     height: 100%;
     max-height: 100%;
     overflow: hidden;
@@ -1614,7 +1614,7 @@ html, body {
     max-width: 345px;
     width: 100%;
     gap: 0;
-    margin-bottom: 12px;
+    margin-bottom: 18px;
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(6, 182, 212, 0.18);
   }
 
@@ -2084,15 +2084,15 @@ html, body {
   }
 
   .home-center-overlay {
-    padding: 0 10px 58px;
-    padding-bottom: max(58px, calc(34px + env(safe-area-inset-bottom)));
+    padding: 0 10px 82px;
+    padding-bottom: max(82px, calc(54px + env(safe-area-inset-bottom)));
   }
 
   .home-menu-box {
     padding: 11px 14px 13px;
     border-radius: 20px;
     max-width: 335px;
-    margin-bottom: 8px;
+    margin-bottom: 14px;
   }
 
   .home-main-title {
