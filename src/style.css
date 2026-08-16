@@ -768,8 +768,8 @@ html, body {
 .comp-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
+  justify-content: center;
+  padding: 7px 16px;
   background: var(--bg-glass-hud);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -777,8 +777,9 @@ html, body {
   color: var(--text-muted);
   border-radius: 99px;
   font-family: var(--font-heading);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1943,14 +1944,10 @@ html, body {
   }
 
   .comp-chip {
-    padding: 5px 10px;
-    font-size: 0.72rem;
-    gap: 4px;
+    padding: 6px 13px;
+    font-size: 0.76rem;
+    font-weight: 700;
     flex-shrink: 0;
-  }
-
-  .comp-chip .chip-icon {
-    font-size: 0.85rem;
   }
 
   /* Floating Standalone Component Navigator (Hidden on mobile because we have top chips!) */
