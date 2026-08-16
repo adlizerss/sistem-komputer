@@ -250,7 +250,45 @@
         </div>
       </div>
 
-      <!-- Floating Standalone Component Navigator (Prev / Next & Counter) -->
+      <!-- Top Horizontal Component Chips Bar (Direct Component Switching) -->
+      <nav id="components-top-bar" class="components-top-bar view-section hidden" aria-label="Daftar Komponen Komputer">
+        <div class="comp-chips-scroll" id="comp-chips-container">
+          <button class="comp-chip active" data-index="0" title="Processor (CPU)">
+            <span class="chip-icon">🧠</span>
+            <span class="chip-name">CPU</span>
+          </button>
+          <button class="comp-chip" data-index="1" title="Motherboard">
+            <span class="chip-icon">🔲</span>
+            <span class="chip-name">Motherboard</span>
+          </button>
+          <button class="comp-chip" data-index="2" title="Memory RAM">
+            <span class="chip-icon">⚡</span>
+            <span class="chip-name">RAM</span>
+          </button>
+          <button class="comp-chip" data-index="3" title="Kartu Grafis (GPU)">
+            <span class="chip-icon">🎮</span>
+            <span class="chip-name">GPU</span>
+          </button>
+          <button class="comp-chip" data-index="4" title="SSD NVMe M.2">
+            <span class="chip-icon">💾</span>
+            <span class="chip-name">SSD NVMe</span>
+          </button>
+          <button class="comp-chip" data-index="5" title="Hard Disk Drive (HDD)">
+            <span class="chip-icon">💽</span>
+            <span class="chip-name">HDD</span>
+          </button>
+          <button class="comp-chip" data-index="6" title="Power Supply Unit (PSU)">
+            <span class="chip-icon">🔌</span>
+            <span class="chip-name">Power Supply</span>
+          </button>
+          <button class="comp-chip" data-index="7" title="Casing PC Tower">
+            <span class="chip-icon">🖥️</span>
+            <span class="chip-name">Case PC</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Floating Standalone Component Navigator (Prev / Next & Counter for Desktop/Tablet) -->
       <div id="floating-comp-nav" class="floating-comp-nav view-section hidden">
         <button id="btn-comp-prev" class="floating-nav-btn prev" title="Komponen Sebelumnya (Panah Kiri)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="nav-arrow-svg">
@@ -271,13 +309,28 @@
         </button>
       </div>
 
+      <!-- Floating Standalone Unhide Action Button (Appears when sheet is minimized) -->
+      <button id="btn-unhide-sheet" class="floating-unhide-btn hidden" title="Buka Papan Penjelasan Komponen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="unhide-icon">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span class="unhide-text">Buka Penjelasan</span>
+        <span class="unhide-arrow">▲</span>
+      </button>
+
       <!-- ============================================== -->
       <!-- VIEW 1: PEMBAHASAN INFO CARD (Right Floating Panel) -->
       <!-- ============================================== -->
       <aside id="panel-pembahasan" class="side-floating-card view-section hidden">
-        <div id="btn-toggle-sheet" class="sheet-handle-bar" title="Ketuk untuk sembunyikan/tampilkan detail">
+        <div id="btn-toggle-sheet" class="sheet-handle-bar" title="Sembunyikan Papan Penjelasan">
           <span class="sheet-handle-pill"></span>
-          <span class="sheet-handle-hint">📖 Sentuh untuk membaca penjelasan</span>
+          <span class="sheet-minimize-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="minimize-icon">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            Sembunyikan
+          </span>
         </div>
 
         <div class="card-header">

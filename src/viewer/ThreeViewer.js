@@ -357,29 +357,42 @@ export class ThreeViewer {
     pivot.position.set(0, 0, 0);
 
     let targetLookX = 0;
-    let targetLookY = 0;
-    let camDistance = distance;
+    let targetCamX = 0;
+    let targetCamY = 0;
+    let targetCamZ = 0;
 
     if (layoutMode === 'home') {
       if (isMobile) {
         // Mobile Home: Lowered slightly into a comfortable upper-middle position
         targetLookY = -radius * 0.45;
         camDistance = distance * 1.25;
+        targetCamX = targetLookX + camDistance * 0.75;
+        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamZ = camDistance * 1.05;
       } else {
         // Desktop Home: Aim camera rightwards so model appears on the left side
         targetLookX = radius * 0.45;
         camDistance = distance * 0.75;
+        targetCamX = targetLookX + camDistance * 0.75;
+        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamZ = camDistance * 1.05;
       }
     } else {
       // Pembahasan or Quiz Mode
       if (isMobile) {
-        // On mobile, aim camera below component so component appears centered in the upper viewport with plenty of room
-        targetLookY = -radius * 1.25;
-        camDistance = distance * 1.85;
+        // On mobile: Position model slightly lower into safe center area, moderate size, with elevated 3/4 isometric view
+        targetLookY = -radius * 0.15;
+        camDistance = distance * 2.25;
+        targetCamX = targetLookX + camDistance * 0.65;
+        targetCamY = targetLookY + camDistance * 0.85; // Angled from above to clearly show component surface details
+        targetCamZ = camDistance * 0.95;
       } else {
-        // On desktop, shift component model slightly left
+        // On desktop: Shift component model slightly left with angled view
         targetLookX = radius * 0.35;
         camDistance = distance * 1.05;
+        targetCamX = targetLookX + camDistance * 0.72;
+        targetCamY = targetLookY + camDistance * 0.68;
+        targetCamZ = camDistance * 1.05;
       }
     }
 
@@ -388,11 +401,7 @@ export class ThreeViewer {
     this.controls.maxDistance = Math.max(radius * 40.0, 50.0);
 
     // Position camera looking directly at targetLook
-    this.camera.position.set(
-      targetLookX + camDistance * 0.75,
-      targetLookY + camDistance * 0.42,
-      camDistance * 1.05
-    );
+    this.camera.position.set(targetCamX, targetCamY, targetCamZ);
     this.controls.update();
     this.animatingCamera = false;
   }
@@ -423,28 +432,43 @@ export class ThreeViewer {
     let targetLookX = 0;
     let targetLookY = 0;
     let camDistance = distance;
+    let targetCamX = 0;
+    let targetCamY = 0;
+    let targetCamZ = 0;
 
     if (this.currentLayoutMode === 'home') {
       if (isMobile) {
         targetLookY = -radius * 0.45;
         camDistance = distance * 1.25;
+        targetCamX = targetLookX + camDistance * 0.75;
+        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamZ = camDistance * 1.05;
       } else {
         targetLookX = radius * 0.45;
         camDistance = distance * 0.75;
+        targetCamX = targetLookX + camDistance * 0.75;
+        targetCamY = targetLookY + camDistance * 0.42;
+        targetCamZ = camDistance * 1.05;
       }
     } else {
       if (isMobile) {
-        targetLookY = -radius * 1.25;
-        camDistance = distance * 1.85;
+        targetLookY = -radius * 0.15;
+        camDistance = distance * 2.25;
+        targetCamX = targetLookX + camDistance * 0.65;
+        targetCamY = targetLookY + camDistance * 0.85;
+        targetCamZ = camDistance * 0.95;
       } else {
         targetLookX = radius * 0.35;
         camDistance = distance * 1.05;
+        targetCamX = targetLookX + camDistance * 0.72;
+        targetCamY = targetLookY + camDistance * 0.68;
+        targetCamZ = camDistance * 1.05;
       }
     }
 
     this.currentModel.position.set(0, 0, 0);
     this.animateCameraTo(
-      new THREE.Vector3(targetLookX + camDistance * 0.75, targetLookY + camDistance * 0.42, camDistance * 1.05),
+      new THREE.Vector3(targetCamX, targetCamY, targetCamZ),
       new THREE.Vector3(targetLookX, targetLookY, 0)
     );
   }

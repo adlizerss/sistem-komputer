@@ -59,6 +59,9 @@ class App {
       // Floating Panels & Gallery
       panelPembahasan: document.getElementById('panel-pembahasan'),
       btnToggleSheet: document.getElementById('btn-toggle-sheet'),
+      btnUnhideSheet: document.getElementById('btn-unhide-sheet'),
+      componentsTopBar: document.getElementById('components-top-bar'),
+      compChipsContainer: document.getElementById('comp-chips-container'),
       floatingCompNav: document.getElementById('floating-comp-nav'),
       btnCompPrev: document.getElementById('btn-comp-prev'),
       btnCompNext: document.getElementById('btn-comp-next'),
@@ -194,6 +197,18 @@ class App {
       btn.classList.toggle('active', idx === index);
     });
 
+    // Update Active Chip in Top Chips Bar
+    if (this.elements.compChipsContainer) {
+      const topChips = this.elements.compChipsContainer.querySelectorAll('.comp-chip');
+      topChips.forEach((chip, idx) => {
+        const isActive = idx === index;
+        chip.classList.toggle('active', isActive);
+        if (isActive) {
+          chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+    }
+
     // Update Component Step Indicator
     if (this.elements.compStepIndicator) {
       this.elements.compStepIndicator.innerHTML = `
@@ -252,7 +267,9 @@ class App {
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.remove('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.add('hidden');
+      if (this.elements.componentsTopBar) this.elements.componentsTopBar.classList.add('hidden');
       if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.add('hidden');
+      if (this.elements.btnUnhideSheet) this.elements.btnUnhideSheet.classList.add('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.add('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.add('hidden');
@@ -272,7 +289,9 @@ class App {
         this.elements.panelPembahasan.classList.remove('hidden');
         this.elements.panelPembahasan.classList.remove('sheet-collapsed');
       }
+      if (this.elements.componentsTopBar) this.elements.componentsTopBar.classList.remove('hidden');
       if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.remove('hidden');
+      if (this.elements.btnUnhideSheet) this.elements.btnUnhideSheet.classList.add('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.add('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.remove('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.remove('hidden');
@@ -287,7 +306,9 @@ class App {
 
       if (this.elements.homeCenterMenu) this.elements.homeCenterMenu.classList.add('hidden');
       if (this.elements.panelPembahasan) this.elements.panelPembahasan.classList.add('hidden');
+      if (this.elements.componentsTopBar) this.elements.componentsTopBar.classList.add('hidden');
       if (this.elements.floatingCompNav) this.elements.floatingCompNav.classList.add('hidden');
+      if (this.elements.btnUnhideSheet) this.elements.btnUnhideSheet.classList.add('hidden');
       if (this.elements.panelKuis) this.elements.panelKuis.classList.remove('hidden');
       if (this.elements.bottomGallery) this.elements.bottomGallery.classList.add('hidden');
       if (this.elements.floatingHud) this.elements.floatingHud.classList.remove('hidden');
@@ -454,30 +475,47 @@ class App {
     this.elements.tabPembahasan.addEventListener('click', () => this.switchTab('pembahasan'));
     this.elements.tabKuis.addEventListener('click', () => this.switchTab('kuis'));
 
-    // Mobile Sheet Handle & Card Toggle (Collapse/Expand Info Panel on Mobile)
-    if (this.elements.panelPembahasan) {
-      const toggleSheetAction = (e) => {
+    // Top Component Chips Bar Click Events
+    if (this.elements.compChipsContainer) {
+      const topChips = this.elements.compChipsContainer.querySelectorAll('.comp-chip');
+      topChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const idx = parseInt(chip.dataset.index, 10);
+          this.selectComponent(idx);
+        });
+      });
+    }
+
+    // Sheet Minimize / Collapse Button (in card header)
+    if (this.elements.btnToggleSheet && this.elements.panelPembahasan) {
+      const hideSheetAction = (e) => {
         if (e) {
           e.stopPropagation();
           if (e.type === 'touchend') e.preventDefault();
         }
-        this.elements.panelPembahasan.classList.toggle('sheet-collapsed');
-      };
-
-      if (this.elements.btnToggleSheet) {
-        this.elements.btnToggleSheet.addEventListener('click', toggleSheetAction);
-        this.elements.btnToggleSheet.addEventListener('touchend', toggleSheetAction);
-      }
-
-      const expandIfCollapsed = (e) => {
-        if (this.elements.panelPembahasan.classList.contains('sheet-collapsed')) {
-          if (e && e.type === 'touchend') e.preventDefault();
-          this.elements.panelPembahasan.classList.remove('sheet-collapsed');
+        this.elements.panelPembahasan.classList.add('sheet-collapsed');
+        if (this.elements.btnUnhideSheet) {
+          this.elements.btnUnhideSheet.classList.remove('hidden');
         }
       };
 
-      this.elements.panelPembahasan.addEventListener('click', expandIfCollapsed);
-      this.elements.panelPembahasan.addEventListener('touchend', expandIfCollapsed);
+      this.elements.btnToggleSheet.addEventListener('click', hideSheetAction);
+      this.elements.btnToggleSheet.addEventListener('touchend', hideSheetAction);
+    }
+
+    // Floating Standalone Unhide Action Button (at bottom center)
+    if (this.elements.btnUnhideSheet && this.elements.panelPembahasan) {
+      const unhideSheetAction = (e) => {
+        if (e) {
+          e.stopPropagation();
+          if (e.type === 'touchend') e.preventDefault();
+        }
+        this.elements.panelPembahasan.classList.remove('sheet-collapsed');
+        this.elements.btnUnhideSheet.classList.add('hidden');
+      };
+
+      this.elements.btnUnhideSheet.addEventListener('click', unhideSheetAction);
+      this.elements.btnUnhideSheet.addEventListener('touchend', unhideSheetAction);
     }
 
     // Component Navigation Buttons (Prev / Next)
